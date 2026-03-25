@@ -1,0 +1,12 @@
+# Core agent framework
+agent-framework --pre
+
+# Word document generation (executor step)
+python-docx
+
+# Pydantic for structured output models
+pydantic>=2.0
+
+python-dotenv
+
+openai
