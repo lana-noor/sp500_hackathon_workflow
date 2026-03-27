@@ -3,76 +3,49 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 // ---------------------------------------------------------------------------
-// Sample salary slip (matches Python SAMPLE_SALARY_SLIP_MARKDOWN)
-// ---------------------------------------------------------------------------
-const SAMPLE_SLIP = `# Salary Slip — March 2026
-
-**Company:** Digital Transformation Corp
-**Employee Name:** Aarav Mehta
-**Employee ID:** EMP1001
-**Designation:** Operations Analyst
-**Pay Period:** March 2026
-**Pay Date:** 2026-03-31
-
-## Earnings
-
-| Component            | Amount (AED) |
-|----------------------|-------------|
-| Basic Salary         | 6,000.00    |
-| Housing Allowance    | 1,157.86    |
-| Transport Allowance  | 550.00      |
-| Food Allowance       | 150.00      |
-| Mobile Allowance     | 100.00      |
-| Special Allowance    | 150.00      |
-| Overtime             | 250.00      |
-| **Gross Earnings**   | **8,357.86**|
-
-## Deductions
-
-| Component            | Amount (AED) |
-|----------------------|-------------|
-| Total Deductions     | 0.00        |
-
-## Net Salary: AED 8,357.86`
-
-// ---------------------------------------------------------------------------
-// Agent pipeline configuration
+// Agent pipeline configuration — 5 agents
 // ---------------------------------------------------------------------------
 const AGENTS_CONFIG = [
   {
     id: 1,
-    name: 'Document Verification Agent',
-    icon: '🔍',
-    desc: 'Validates structure, maths & fraud signals',
+    name: 'MCP Data Agent',
+    icon: '📦',
+    desc: 'Responses API · FastMCP server · Approved budgets, historical actuals & policy',
   },
   {
     id: 2,
-    name: 'Salary Analysis Agent',
-    icon: '📊',
-    desc: 'Code interpreter · CSV history · variation thresholds',
+    name: 'Web Search Agent',
+    icon: '🔎',
+    desc: 'Azure AI agent_reference · Tavily · UAE inflation, sector benchmarks & news',
   },
   {
     id: 3,
-    name: 'Document Summary Agent',
-    icon: '📝',
-    desc: 'Synthesises both results into a Markdown report',
+    name: 'Code Interpreter Agent',
+    icon: '💻',
+    desc: 'Azure AI Agent Service · Variance calculations, policy flags & trend analysis',
   },
   {
     id: 4,
-    name: 'Word Executor',
-    icon: '💾',
-    desc: 'Saves Markdown + Word (.docx) documents',
+    name: 'Summary Agent',
+    icon: '📝',
+    desc: 'Responses API · Synthesises all inputs into an executive Markdown report',
+  },
+  {
+    id: 5,
+    name: 'Outlook Mail Agent',
+    icon: '📧',
+    desc: 'Azure AI agent_reference · OutlookWorkIQ · Sends report to lananoor@microsoft.com',
   },
 ]
 
 const INITIAL_AGENTS = AGENTS_CONFIG.map(a => ({
   ...a,
-  taskStatus: 'idle',   // idle | running | complete | error
+  taskStatus: 'idle',
   output: '',
 }))
 
 // ---------------------------------------------------------------------------
-// Spinner component
+// Spinner
 // ---------------------------------------------------------------------------
 function Spinner({ size = 18 }) {
   return (
@@ -96,7 +69,7 @@ function Spinner({ size = 18 }) {
 }
 
 // ---------------------------------------------------------------------------
-// Status icon alongside an agent card
+// Status icon
 // ---------------------------------------------------------------------------
 function StatusIcon({ status }) {
   if (status === 'running') return <Spinner size={20} />
@@ -106,13 +79,12 @@ function StatusIcon({ status }) {
 }
 
 // ---------------------------------------------------------------------------
-// Single agent card
+// Agent card
 // ---------------------------------------------------------------------------
 function AgentCard({ agent, isLast }) {
   const { taskStatus, output } = agent
   const [expanded, setExpanded] = useState(false)
 
-  // Auto-expand when output arrives
   React.useEffect(() => {
     if (output) setExpanded(true)
   }, [output])
@@ -152,7 +124,7 @@ function AgentCard({ agent, isLast }) {
 }
 
 // ---------------------------------------------------------------------------
-// Workflow status banner
+// Status banner
 // ---------------------------------------------------------------------------
 function StatusBanner({ status, error }) {
   if (status === 'idle') return null
@@ -160,7 +132,7 @@ function StatusBanner({ status, error }) {
     return (
       <div className="banner banner-complete">
         <span className="banner-tick">✓</span>
-        <span>Workflow complete — all agents finished successfully</span>
+        <span>Workflow complete — report generated &amp; emailed</span>
       </div>
     )
   }
@@ -183,14 +155,23 @@ function StatusBanner({ status, error }) {
 // Main App
 // ---------------------------------------------------------------------------
 export default function App() {
-  const [slip, setSlip] = useState(SAMPLE_SLIP)
-  const [status, setStatus] = useState('idle')     // idle | running | complete | error
-  const [agents, setAgents] = useState(INITIAL_AGENTS)
+  const [report, setReport]     = useState('')
+  const [status, setStatus]     = useState('idle')
+  const [agents, setAgents]     = useState(INITIAL_AGENTS)
   const [markdown, setMarkdown] = useState('')
   const [wordPath, setWordPath] = useState(null)
-  const [error, setError] = useState('')
+  const [mailResult, setMailResult] = useState('')
+  const [error, setError]       = useState('')
   const reportRef = useRef(null)
   const readerRef = useRef(null)
+
+  // Load sample report on mount
+  React.useEffect(() => {
+    fetch('/api/sample')
+      .then(r => r.json())
+      .then(d => setReport(d.content))
+      .catch(() => setReport('# Budget Variance Report\n\n(Could not load sample)'))
+  }, [])
 
   const updateAgent = (id, taskStatus, output) => {
     setAgents(prev =>
@@ -209,12 +190,12 @@ export default function App() {
     setAgents(INITIAL_AGENTS)
     setMarkdown('')
     setWordPath(null)
+    setMailResult('')
     setError('')
   }
 
   const run = async () => {
     reset()
-    // Small delay so reset() state settles
     await new Promise(r => setTimeout(r, 50))
 
     setStatus('running')
@@ -224,7 +205,7 @@ export default function App() {
       const res = await fetch('/api/run', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ salary_slip: slip }),
+        body: JSON.stringify({ budget_report: report }),
       })
 
       if (!res.ok) {
@@ -242,7 +223,6 @@ export default function App() {
         if (done) break
         buf += dec.decode(value, { stream: true })
 
-        // SSE lines are separated by \n\n; parse line-by-line
         const lines = buf.split('\n')
         buf = lines.pop() ?? ''
 
@@ -260,17 +240,12 @@ export default function App() {
               updateAgent(ev.agent, 'complete', ev.output ?? '')
               break
             case 'executor_start':
-              updateAgent(4, 'running')
+              // Word doc conversion happening — agent 4 already complete
               break
             case 'executor_complete':
-              updateAgent(4, 'complete',
-                ev.word_doc_path
-                  ? '✓ Markdown report saved\n✓ Word document saved'
-                  : '✓ Markdown report saved\n(Word: python-docx not available)',
-              )
               setMarkdown(ev.markdown ?? '')
               setWordPath(ev.word_doc_path || null)
-              // Scroll to report panel
+              setMailResult(ev.mail_result || '')
               setTimeout(() => reportRef.current?.scrollIntoView({ behavior: 'smooth' }), 300)
               break
             case 'done':
@@ -302,10 +277,12 @@ export default function App() {
       <header className="header">
         <div className="header-inner">
           <div className="header-brand">
-            <div className="header-logo">⚡</div>
+            <div className="header-logo">📊</div>
             <div>
-              <div className="header-title">Payslip Verification Workflow</div>
-              <div className="header-sub">Azure AI Agent Service · Three-agent pipeline + Word executor</div>
+              <div className="header-title">Budget Variance Report Workflow</div>
+              <div className="header-sub">
+                Azure AI Agent Service · MCP Data · Web Search · Code Interpreter · Outlook
+              </div>
             </div>
           </div>
           <StatusBanner status={status} error={error} />
@@ -321,14 +298,14 @@ export default function App() {
           {/* Input card */}
           <section className="card">
             <div className="card-header">
-              <h2 className="card-title">📄 Salary Slip Input</h2>
+              <h2 className="card-title">📄 Budget Variance Report Input</h2>
             </div>
             <textarea
               className="slip-textarea"
-              value={slip}
-              onChange={e => setSlip(e.target.value)}
+              value={report}
+              onChange={e => setReport(e.target.value)}
               disabled={isRunning}
-              placeholder="Paste salary slip content (Markdown or JSON)…"
+              placeholder="Paste your budget variance report (Markdown format)…"
               spellCheck={false}
             />
             <div className="input-footer">
@@ -374,7 +351,7 @@ export default function App() {
         <div className="col-right">
           <section className="card report-card" ref={reportRef}>
             <div className="card-header">
-              <h2 className="card-title">📋 Verification Report</h2>
+              <h2 className="card-title">📋 Variance Analysis Report</h2>
               {markdown && (
                 <button className="btn-download" onClick={downloadWord}>
                   ↓ Download Word
@@ -382,11 +359,18 @@ export default function App() {
               )}
             </div>
 
+            {mailResult && (
+              <div className="mail-sent-banner">
+                <span>📧</span>
+                <span>Report emailed to lananoor@microsoft.com</span>
+              </div>
+            )}
+
             {!markdown && (
               <div className="report-empty">
                 {isRunning
                   ? <><Spinner size={28} /><p>Generating report…</p></>
-                  : <><span className="report-empty-icon">📋</span><p>Run the workflow to see the report here.</p></>
+                  : <><span className="report-empty-icon">📊</span><p>Run the workflow to see the analysis report here.</p></>
                 }
               </div>
             )}

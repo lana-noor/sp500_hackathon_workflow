@@ -1,6 +1,28 @@
-PAYSLIPS_CSV = 
-OUTPUT_DIR = 
+# ── Azure AI Project ──────────────────────────────────────────────────────────
+AZURE_AI_PROJECT_ENDPOINT=https://agents-resource-foundry-resource.services.ai.azure.com/api/projects/agents-resource-foundry
+AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o
+
+# ── Azure OpenAI (direct, if not using project endpoint) ─────────────────────
 AZURE_OPENAI_ENDPOINT=
 AZURE_OPENAI_API_KEY=
-AZURE_OPENAI_DEPLOYMENT=gpt-5-mini
-AZURE_OPENAI_API_VERSION="2025-03-01-preview"
+AZURE_OPENAI_DEPLOYMENT=gpt-4o
+AZURE_OPENAI_API_VERSION=2025-03-01-preview
+
+# ── Budget Data MCP Server ───────────────────────────────────────────────────
+# Start with: python budget_mcp_server.py
+MCP_SERVER_URL=http://localhost:8001
+
+# ── Agent References (Azure AI Foundry deployed agents) ─────────────────────
+WEB_SEARCH_AGENT_NAME=WebSearchAgent
+WEB_SEARCH_AGENT_VERSION=13
+OUTLOOK_AGENT_NAME=OutlookWorkIQAgent
+OUTLOOK_AGENT_VERSION=7
+
+# ── Workflow settings ────────────────────────────────────────────────────────
+OUTLOOK_RECIPIENT_EMAIL=lananoor@microsoft.com
+OUTPUT_DIR=./output
+
+# ── Data directory (synthetic budget data) ───────────────────────────────────
+# Budget data files live in ./data/ by default — no change needed unless
+# you move the data directory.
+BUDGET_DATA_DIR=./data
