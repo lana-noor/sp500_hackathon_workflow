@@ -1,12 +1,8 @@
 """
-FastAPI backend with Server-Sent Events for the Budget Variance Report UI.
+FastAPI backend with Server-Sent Events for the Payslip Verification UI.
 
 Run with:
     uvicorn api_server:app --reload --port 8000
-
-Prerequisites:
-    The Budget Data MCP Server must also be running:
-        python budget_mcp_server.py
 """
 import asyncio
 import json
@@ -18,16 +14,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, FileResponse
 from pydantic import BaseModel
 
-from budget_variance_workflow import (
-    BudgetVarianceWorkflowExecutor,
-    SAMPLE_BUDGET_REPORT_MARKDOWN,
+from digital_transformation_demo.workflow_app import (
+    PayslipWorkflowExecutor,
+    SAMPLE_SALARY_SLIP_MARKDOWN,
 )
 
 # ---------------------------------------------------------------------------
 # App setup
 # ---------------------------------------------------------------------------
 
-app = FastAPI(title="Budget Variance Report API")
+app = FastAPI(title="Payslip Verification API")
 
 app.add_middleware(
     CORSMiddleware,
@@ -36,7 +32,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Holds the path to the most-recently generated Word document
+# Holds the path to the most-recently generated Word document so the
+# download endpoint can serve it without storing state in the request.
 _last_word_doc: dict = {"path": None}
 
 
@@ -45,14 +42,14 @@ _last_word_doc: dict = {"path": None}
 # ---------------------------------------------------------------------------
 
 class RunRequest(BaseModel):
-    budget_report: str = SAMPLE_BUDGET_REPORT_MARKDOWN
+    salary_slip: str = SAMPLE_SALARY_SLIP_MARKDOWN
 
 
 # ---------------------------------------------------------------------------
 # Streaming executor — subclasses the workflow to inject SSE events
 # ---------------------------------------------------------------------------
 
-class StreamingWorkflowExecutor(BudgetVarianceWorkflowExecutor):
+class StreamingWorkflowExecutor(PayslipWorkflowExecutor):
     """Overrides agent runner methods to emit progress events into a queue."""
 
     def __init__(self, queue: asyncio.Queue) -> None:
@@ -62,62 +59,36 @@ class StreamingWorkflowExecutor(BudgetVarianceWorkflowExecutor):
     async def _emit(self, data: dict) -> None:
         await self._q.put(data)
 
-    # Agent 1 — MCP Data Agent
-    async def _run_mcp_data(self, budget_report_input: str) -> str:
+    # Agent 1 — Document Verification
+    async def _run_verification(self, salary_slip_input: str) -> str:
         await self._emit({"event": "agent_start", "agent": 1})
-        result = await super()._run_mcp_data(budget_report_input)
+        result = await super()._run_verification(salary_slip_input)
         await self._emit({"event": "agent_complete", "agent": 1, "output": result})
         return result
 
-    # Agent 2 — Web Search Agent
-    async def _run_web_search(self, budget_report_input: str) -> str:
-        await self._emit({"event": "agent_start", "agent": 2})
-        result = await super()._run_web_search(budget_report_input)
+    # Agent 2 — Salary Analysis (code interpreter)
+    async def _run_analysis(self, salary_slip_input: str, employee_name: str) -> str:
+        await self._emit({"event": "agent_start", "agent": 2, "employee": employee_name})
+        result = await super()._run_analysis(salary_slip_input, employee_name)
         await self._emit({"event": "agent_complete", "agent": 2, "output": result})
         return result
 
-    # Agent 3 — Code Interpreter Agent
-    async def _run_code_analysis(
-        self, budget_report_input: str, mcp_data_text: str, web_context_text: str
-    ) -> str:
+    # Agent 3 — Document Summary  (also signals executor_start on return,
+    # because the base execute() saves files immediately after this method)
+    async def _run_summary(self, verification_text: str, analysis_text: str) -> str:
         await self._emit({"event": "agent_start", "agent": 3})
-        result = await super()._run_code_analysis(
-            budget_report_input, mcp_data_text, web_context_text
-        )
+        result = await super()._run_summary(verification_text, analysis_text)
         await self._emit({"event": "agent_complete", "agent": 3, "output": result})
-        return result
-
-    # Agent 4 — Summary Agent (also signals executor_start on return)
-    async def _run_summary(
-        self,
-        budget_report_input: str,
-        mcp_data_text: str,
-        web_context_text: str,
-        analysis_text: str,
-    ) -> str:
-        await self._emit({"event": "agent_start", "agent": 4})
-        result = await super()._run_summary(
-            budget_report_input, mcp_data_text, web_context_text, analysis_text
-        )
-        await self._emit({"event": "agent_complete", "agent": 4, "output": result})
-        await self._emit({"event": "executor_start"})  # Word doc conversion is next
-        return result
-
-    # Agent 5 — Outlook Mail Agent
-    async def _run_outlook_mail(self, summary_markdown: str, word_doc_path) -> str:
-        await self._emit({"event": "agent_start", "agent": 5})
-        result = await super()._run_outlook_mail(summary_markdown, word_doc_path)
-        await self._emit({"event": "agent_complete", "agent": 5, "output": result})
+        await self._emit({"event": "executor_start"})   # file-saving is next
         return result
 
     # Full workflow — wraps super().execute() and emits completion events
-    async def execute(self, budget_report_input: str) -> dict:
-        result = await super().execute(budget_report_input)
+    async def execute(self, salary_slip_input: str) -> dict:
+        result = await super().execute(salary_slip_input)
         await self._emit({
             "event": "executor_complete",
             "markdown": result["summary"],
             "word_doc_path": result.get("word_doc_path") or "",
-            "mail_result": result.get("mail_result") or "",
         })
         await self._emit({"event": "done"})
         return result
@@ -130,13 +101,13 @@ class StreamingWorkflowExecutor(BudgetVarianceWorkflowExecutor):
 @app.post("/api/run")
 async def run_workflow(body: RunRequest) -> StreamingResponse:
     """
-    Run the budget variance workflow and stream progress as SSE events.
+    Run the payslip verification workflow and stream progress as SSE events.
 
     Event types emitted:
-      agent_start       { agent: 1|2|3|4|5 }
-      agent_complete    { agent: 1|2|3|4|5, output: str }
+      agent_start       { agent: 1|2|3 }
+      agent_complete    { agent: 1|2|3, output: str }
       executor_start    {}
-      executor_complete { markdown: str, word_doc_path: str, mail_result: str }
+      executor_complete { markdown: str, word_doc_path: str }
       done              {}
       error             { message: str }
     """
@@ -147,7 +118,7 @@ async def run_workflow(body: RunRequest) -> StreamingResponse:
 
         async def run_task() -> None:
             try:
-                result = await executor.execute(body.budget_report)
+                result = await executor.execute(body.salary_slip)
                 _last_word_doc["path"] = result.get("word_doc_path")
             except Exception as exc:
                 await queue.put({"event": "error", "message": str(exc)})
@@ -192,9 +163,9 @@ async def download_word() -> FileResponse:
 
 
 # ---------------------------------------------------------------------------
-# Sample report endpoint — used to pre-fill the React textarea
+# Sample slip endpoint — used to pre-fill the React textarea
 # ---------------------------------------------------------------------------
 
 @app.get("/api/sample")
 async def get_sample() -> dict:
-    return {"content": SAMPLE_BUDGET_REPORT_MARKDOWN}
+    return {"content": SAMPLE_SALARY_SLIP_MARKDOWN}

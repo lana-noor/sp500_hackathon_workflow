@@ -1,5 +1,5 @@
 # Core agent framework
-agent-framework --pre
+#agent-framework --pre
 
 # Azure AI Projects SDK (for AIProjectClient + agent_reference support)
 azure-ai-projects>=2.0.0
