@@ -1,28 +1,38 @@
-# ── Azure AI Project ──────────────────────────────────────────────────────────
-AZURE_AI_PROJECT_ENDPOINT=https://agents-resource-foundry-resource.services.ai.azure.com/api/projects/agents-resource-foundry
-AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o
+# ── Legacy Payslip Workflow Settings ─────────────────────────────────────────
+PAYSLIPS_CSV_PATH=
 
-# ── Azure OpenAI (direct, if not using project endpoint) ─────────────────────
-AZURE_OPENAI_ENDPOINT=
-AZURE_OPENAI_API_KEY=
-AZURE_OPENAI_DEPLOYMENT=gpt-4o
+# ── Azure AI Project ──────────────────────────────────────────────────────────
+AZURE_AI_PROJECT_ENDPOINT=https://<<your-foundry-project-resource>>.services.ai.azure.com/api/projects/agents-resource-foundry
+AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-5-mini
+
+# ── Azure OpenAI ──────────────────────────────────────────────────────────────
 AZURE_OPENAI_API_VERSION=2025-03-01-preview
 
-# ── Budget Data MCP Server ───────────────────────────────────────────────────
-# Start with: python budget_mcp_server.py
-MCP_SERVER_URL=http://localhost:8001
+# ── Budget Data MCP Server (Remote Azure Container Apps) ─────────────────────
+MCP_SERVER_URL=https://budget-mcp-server.name.eastus.azurecontainerapps.io/mcp
 
-# ── Agent References (Microsoft Foundry Agent Service deployed agents) ─────────────────────
-WEB_SEARCH_AGENT_NAME=WebSearchAgent
-WEB_SEARCH_AGENT_VERSION=13
-OUTLOOK_AGENT_NAME=OutlookWorkIQAgent
-OUTLOOK_AGENT_VERSION=7
+# ── Workflow Settings ─────────────────────────────────────────────────────────
+OUTPUT_DIR=
+OUTLOOK_RECIPIENT_EMAIL=
 
-# ── Workflow settings ────────────────────────────────────────────────────────
-OUTLOOK_RECIPIENT_EMAIL=lananoor@microsoft.com
-OUTPUT_DIR=./output
+# ── Agent References (Azure AI Foundry deployed agents) ──────────────────────
+# Agent 1 — MCP narrative retrieval (working ✓)
+BUDGET_MCP_AGENT_NAME=BudgetReportsMCPAgent
+BUDGET_MCP_AGENT_VERSION=3
 
-# ── Data directory (synthetic budget data) ───────────────────────────────────
-# Budget data files live in ./data/ by default — no change needed unless
-# you move the data directory.
-BUDGET_DATA_DIR=./data
+# Agent 2 — Web Search economic validation (working ✓)
+WEB_SEARCH_AGENT_NAME=WebSearchBudgetsAgent
+WEB_SEARCH_AGENT_VERSION=3
+
+# Agent 3 — Code Interpreter CSV reconciliation
+# FIXED: was BudgetCodeInterpreterAgent v1 → deployed name is BudgetVarianceCodeIntAgent v4
+CODE_INTERPRETER_AGENT_NAME=BudgetVarianceCodeIntAgent
+CODE_INTERPRETER_AGENT_VERSION=4
+
+# Agent 4 — Policy / Foundry IQ (NEW agent — verify version in your Foundry portal)
+POLICY_AGENT_NAME=BudgetPolicyAgent
+POLICY_AGENT_VERSION=4
+
+# Agent 6 — Outlook email delivery
+OUTLOOK_AGENT_NAME=BudgetWorkIQMailAgent
+OUTLOOK_AGENT_VERSION=3
