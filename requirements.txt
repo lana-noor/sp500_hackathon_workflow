@@ -10,9 +10,6 @@ azure-identity>=1.15.0
 # Word document generation
 python-docx
 
-# Pydantic for structured output models
-pydantic>=2.0
-
 # Environment variable loading
 python-dotenv
 
@@ -21,7 +18,12 @@ openai>=1.30.0
 
 # FastAPI backend + SSE (for the React UI)
 fastapi>=0.115
-uvicorn[standard]>=0.30
 
 # FastMCP — for the custom Budget Data MCP Server
 fastmcp>=0.4.0
+
+# Uvicorn for serving (included with FastMCP but explicit for clarity)
+uvicorn[standard]>=0.30
+
+# Pydantic (dependency of FastMCP)
+pydantic>=2.0

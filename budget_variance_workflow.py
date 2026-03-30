@@ -1,33 +1,40 @@
 # Copyright (c) Microsoft. All rights reserved.
 
 """
-Budget Variance Report Workflow — Five Sequential Agents
-=========================================================
+Budget Variance Report Workflow — Six Sequential Agents
+========================================================
 
 Pipeline:
-  Agent 1  →  MCP Data Agent         (Responses API + FastMCP server)
-               Retrieves approved budgets, historical actuals, and variance
-               policy from the Budget Data MCP Server (localhost:8001).
+  Agent 1  →  MCP Data Agent              (agent_reference: BudgetReportsMCPAgent)
+               Retrieves department-submitted variance narrative reports with
+               justifications, explanations, and remediation plans.
+               Source: MCP server serving department_reports/*.md files
 
-  Agent 2  →  Web Search Agent       (Azure AI agent_reference: WebSearchAgent v13)
-               Searches for macroeconomic context, inflation rates, and
-               public-sector spending benchmarks relevant to the report period.
+  Agent 2  →  Web Search Agent            (agent_reference: WebSearchBudgetsAgent)
+               Searches for macroeconomic context (UAE inflation, sector benchmarks)
+               to validate department claims against external economic data.
 
-  Agent 3  →  Code Interpreter Agent (Azure AI Agent Service + code_interpreter tool)
-               Calculates per-department variances, flags policy breaches,
-               runs trend analysis against historical data, and produces
-               structured JSON output.
+  Agent 3  →  Code Interpreter Agent      (agent_reference: BudgetVarianceCodeIntAgent)
+               Analyzes official CSV files (approved_budgets.csv, historical_actuals.csv)
+               and reconciles actual data against department claims from Agent 1.
+               Produces structured JSON variance analysis.
 
-  Agent 4  →  Summary Agent          (Responses API)
-               Synthesises agents 1–3 into a professional Markdown report
-               and converts it to a Word (.docx) document.
+  Agent 4  →  Foundry IQ Policy Agent     (agent_reference: BudgetPolicyAgent)
+               Uses Azure AI Search (Foundry IQ) to retrieve policy guidance from
+               ingested documents (Financial Management Act, procurement guidelines).
+               Provides compliance requirements and regulatory context.
 
-  Agent 5  →  Outlook Mail Agent     (Azure AI agent_reference: OutlookWorkIQAgent v7)
+  Agent 5  →  Summary Agent               (Responses API - no name)
+               Synthesizes outputs from Agents 1-4 into a comprehensive executive
+               Markdown report and converts to Word (.docx) document.
+
+  Agent 6  →  Outlook Mail Agent          (agent_reference: BudgetWorkIQMailAgent)
                Sends the final report to lananoor@microsoft.com via Outlook.
 
 Prerequisites:
-  - budget_mcp_server.py must be running on localhost:8001:
-        python budget_mcp_server.py
+  - All agent_reference agents deployed in Azure AI Foundry
+  - BudgetReportsMCPAgent connected to: https://budget-reports-mcp-server.<id>.eastus.azurecontainerapps.io/mcp
+  - BudgetPolicyAgent connected to Azure AI Search index: adga-budget-policies
   - Azure credentials configured (DefaultAzureCredential / AzureCliCredential)
   - Environment variables set (see .envsample)
 """
@@ -44,9 +51,9 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 
 from agent_framework import Agent
-from agent_framework.azure import AzureOpenAIResponsesClient, AzureAIAgentClient
+from agent_framework.azure import AzureOpenAIResponsesClient
 from azure.ai.projects import AIProjectClient
-from azure.identity.aio import DefaultAzureCredential, AzureCliCredential
+from azure.identity import DefaultAzureCredential
 
 # ---------------------------------------------------------------------------
 # python-docx — optional; only needed for the Word executor
@@ -70,12 +77,38 @@ load_dotenv()
 OUTPUT_DIR = Path(os.getenv("OUTPUT_DIR", "./output"))
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-MCP_SERVER_URL       = os.getenv("MCP_SERVER_URL", "http://localhost:8001")
+PROMPTS_DIR = Path(__file__).parent / "prompts"
+
+def load_prompt(filename: str) -> str:
+    """Load a prompt from the prompts directory."""
+    prompt_path = PROMPTS_DIR / filename
+    with open(prompt_path, "r", encoding="utf-8") as f:
+        return f.read().strip()
+
+MCP_SERVER_URL       = os.getenv("MCP_SERVER_URL", "https://budget-reports-mcp-server.redwave-ed431b4a.eastus.azurecontainerapps.io/mcp")
 OUTLOOK_RECIPIENT    = os.getenv("OUTLOOK_RECIPIENT_EMAIL", "lananoor@microsoft.com")
-WEB_SEARCH_AGENT     = os.getenv("WEB_SEARCH_AGENT_NAME", "WebSearchAgent")
-WEB_SEARCH_VERSION   = os.getenv("WEB_SEARCH_AGENT_VERSION", "13")
-OUTLOOK_AGENT        = os.getenv("OUTLOOK_AGENT_NAME", "OutlookWorkIQAgent")
-OUTLOOK_VERSION      = os.getenv("OUTLOOK_AGENT_VERSION", "7")
+
+# Agent references (Azure AI Foundry deployed agents)
+# Agent 1: BudgetReportsMCPAgent - Department narrative reports via MCP
+BUDGET_MCP_AGENT          = os.getenv("BUDGET_MCP_AGENT_NAME", "BudgetReportsMCPAgent")
+BUDGET_MCP_VERSION        = os.getenv("BUDGET_MCP_AGENT_VERSION", "3")
+
+# Agent 2: WebSearchBudgetsAgent - Economic validation via web search
+WEB_SEARCH_AGENT          = os.getenv("WEB_SEARCH_AGENT_NAME", "WebSearchBudgetsAgent")
+WEB_SEARCH_VERSION        = os.getenv("WEB_SEARCH_AGENT_VERSION", "14")
+
+# Agent 3: BudgetVarianceCodeIntAgent - CSV analysis via code interpreter
+CODE_INTERPRETER_AGENT    = os.getenv("CODE_INTERPRETER_AGENT_NAME", "BudgetVarianceCodeIntAgent")
+CODE_INTERPRETER_VERSION  = os.getenv("CODE_INTERPRETER_AGENT_VERSION", "1")
+
+# Agent 4: BudgetPolicyAgent - Policy guidance via Foundry IQ (AI Search)
+POLICY_AGENT              = os.getenv("POLICY_AGENT_NAME", "BudgetPolicyAgent")
+POLICY_VERSION            = os.getenv("POLICY_AGENT_VERSION", "1")
+
+# Agent 5: Summary Agent - Uses Responses API (no agent reference)
+# Agent 6: BudgetWorkIQMailAgent - Email delivery via Outlook
+OUTLOOK_AGENT             = os.getenv("OUTLOOK_AGENT_NAME", "BudgetWorkIQMailAgent")
+OUTLOOK_VERSION           = os.getenv("OUTLOOK_AGENT_VERSION", "7")
 
 
 # ---------------------------------------------------------------------------
@@ -110,247 +143,16 @@ class BudgetVarianceOutput(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Agent 1 — MCP Data Agent instructions
+# Load Agent Prompts from Files
 # ---------------------------------------------------------------------------
-MCP_DATA_INSTRUCTIONS = """
-You are a Budget Data Retrieval Agent for the Emirates Digital Authority (EDA).
-
-YOUR TASK
-You have access to the EDA Budget Data MCP Server. Use its tools to retrieve
-authoritative data that will be used to cross-reference the submitted budget report.
-
-REQUIRED STEPS
-1. Call budget_list_departments() to confirm all department codes.
-2. Call budget_get_period_approved_summary(fiscal_year=2026, quarter="Q1") to get
-   the full approved budget for the reporting period.
-3. For each department, call budget_get_historical_actuals(department_code, num_quarters=4)
-   to retrieve the last 4 quarters of actual spend.
-4. Call budget_get_variance_policy() to retrieve the policy thresholds and actions.
-
-OUTPUT FORMAT
-Return a structured JSON object with the following keys:
-{
-  "period": "Q1 2026",
-  "approved_totals": { <department_code>: <approved_budget_aed>, ... },
-  "historical_actuals": { <department_code>: [ { "quarter": "...", "actual": ..., "variance_pct": ... }, ... ] },
-  "variance_policy": { ... },
-  "data_retrieval_notes": [ "..." ]
-}
-
-Return ONLY valid JSON — no prose, no markdown fences.
-""".strip()
-
-
-# ---------------------------------------------------------------------------
-# Agent 2 — Web Search Agent instructions (sent as the user prompt)
-# ---------------------------------------------------------------------------
-WEB_SEARCH_PROMPT_TEMPLATE = """
-You are a macroeconomic research assistant. A UAE public sector budget variance report
-for Q1 2026 (January–March 2026) has been submitted by the Emirates Digital Authority (EDA).
-
-Please search for and provide concise, factual context on the following:
-
-1. UAE inflation rate for Q1 2026 (Jan–Mar 2026) — CPI change vs prior year
-2. UAE government / public sector IT spending benchmarks or trends for 2025-2026
-3. Construction / facilities cost index changes in the UAE for 2025-2026
-   (relevant to infrastructure overspend)
-4. Any significant cybersecurity incidents in the UAE public sector in early 2026
-   (relevant to IT emergency procurement)
-5. UAE public sector HR / recruitment market conditions in Q1 2026
-
-Return a concise JSON object:
-{
-  "uae_inflation_q1_2026_pct": <number or null>,
-  "it_spending_context": "...",
-  "construction_cost_context": "...",
-  "cybersecurity_context": "...",
-  "hr_market_context": "...",
-  "search_notes": ["..."]
-}
-
-Return ONLY valid JSON.
-""".strip()
-
-
-# ---------------------------------------------------------------------------
-# Agent 3 — Code Interpreter Agent instructions
-# ---------------------------------------------------------------------------
-CODE_INTERPRETER_INSTRUCTIONS = """
-You are a Budget Variance Analysis Agent with Code Interpreter enabled.
-
-You will receive three inputs:
-  1. The submitted budget variance report (Markdown).
-  2. Authoritative MCP data: approved budgets, historical actuals, variance policy (JSON).
-  3. Macroeconomic web research context (JSON).
-
-TASK — Use Python code to:
-
-1. Parse the submitted report to extract per-department actual spend figures.
-2. Cross-reference against MCP approved budgets to compute:
-   - Variance (AED) = actual - approved
-   - Variance (%) = (variance / approved) * 100
-3. Apply the variance policy thresholds to assign a policy_status to each department:
-   - |variance_pct| <= 5%     → ACCEPTABLE
-   - 5% < |variance_pct| <= 10% → MINOR (overspend) or UNDERSPEND_REVIEW if negative
-   - 10% < |variance_pct| <= 25% AND overspend → SIGNIFICANT (CFO approval required)
-   - variance_pct > 25% (overspend) → CRITICAL (Board notification required)
-   - variance_pct < -15% → UNDERSPEND_REVIEW
-4. Compare Q1 2026 variance_pct to the department's average variance_pct over the
-   last 4 quarters from historical actuals:
-   - If Q1 2026 variance_pct > avg_historical + 5pp → WORSENING
-   - If Q1 2026 variance_pct < avg_historical - 5pp → IMPROVING
-   - Otherwise → STABLE
-   - If < 2 historical quarters available → INSUFFICIENT_DATA
-5. Identify:
-   - Departments requiring CFO approval (SIGNIFICANT or CRITICAL)
-   - Departments requiring Board notification (CRITICAL only)
-6. Produce 3–5 key findings as bullet points.
-
-OUTPUT — Return ONLY valid JSON matching this schema exactly:
-{
-  "period": "Q1 2026",
-  "organisation": "Emirates Digital Authority",
-  "total_approved_aed": <number>,
-  "total_actual_aed": <number>,
-  "total_variance_aed": <number>,
-  "total_variance_pct": <number>,
-  "overall_policy_status": "ACCEPTABLE|MINOR|SIGNIFICANT|CRITICAL",
-  "departments": [
-    {
-      "department_code": "...",
-      "department_name": "...",
-      "approved_budget_aed": <number>,
-      "actual_spend_aed": <number>,
-      "variance_aed": <number>,
-      "variance_pct": <number>,
-      "policy_status": "ACCEPTABLE|MINOR|SIGNIFICANT|CRITICAL|UNDERSPEND_REVIEW",
-      "required_action": "...",
-      "trend_vs_prior_year": "IMPROVING|WORSENING|STABLE|INSUFFICIENT_DATA"
-    }
-  ],
-  "departments_requiring_cfo_approval": ["...", "..."],
-  "departments_requiring_board_notification": ["..."],
-  "key_findings": ["...", "..."],
-  "data_quality_notes": ["..."]
-}
-
-Return ONLY valid JSON — no prose, no markdown fences.
-""".strip()
-
-
-# ---------------------------------------------------------------------------
-# Agent 4 — Summary Agent instructions
-# ---------------------------------------------------------------------------
-SUMMARY_INSTRUCTIONS = """
-You are a Budget Report Summary Agent. Synthesise the outputs of a budget variance
-analysis into a professional Markdown report suitable for senior government finance officials.
-
-You will receive:
-  1. The original submitted budget report (Markdown).
-  2. MCP Data retrieval results (JSON from Agent 1).
-  3. Web research context (JSON from Agent 2).
-  4. Structured variance analysis (JSON from Agent 3).
-
-Generate a Markdown report following this EXACT structure:
-
----
-
-# Budget Variance Analysis Report — Q1 2026
-
-**Organisation:** Emirates Digital Authority (EDA)
-**Period:** January – March 2026
-**Report Date:** {today's date}
-**Prepared by:** Budget Analysis Workflow (AI-Assisted)
-**Classification:** Internal — Finance & Senior Leadership
-
----
-
-## Executive Summary
-
-{2–3 sentence summary of overall position, key concerns, and recommended actions}
-
----
-
-## Overall Budget Position
-
-| Metric | Value |
-|---|---|
-| Total Approved Budget (Q1) | AED {total_approved:,.0f} |
-| Total Actual Spend (Q1) | AED {total_actual:,.0f} |
-| Total Variance | AED {total_variance:+,.0f} ({total_variance_pct:+.1f}%) |
-| Overall Policy Status | {status with emoji} |
-| Departments Over Budget | {count} |
-| Departments Under Budget | {count} |
-
----
-
-## Department Variance Summary
-
-| Department | Approved (AED) | Actual (AED) | Variance (AED) | Variance % | Status | Trend |
-|---|---|---|---|---|---|---|
-{one row per department, with emoji status indicators}
-
-Status legend: ✅ Acceptable · ⚠️ Minor · 🔶 Significant (CFO) · 🚨 Critical (Board) · 🔵 Underspend Review
-
----
-
-## Macroeconomic Context
-
-{Summarise the web research findings: inflation, IT sector trends, construction costs,
-cybersecurity environment — 2–3 sentences each, with source context where available}
-
----
-
-## Detailed Department Analysis
-
-### {Department Name} — {Status emoji}
-
-{For each department with SIGNIFICANT or CRITICAL status, provide a dedicated subsection:
- - Approved vs actual table
- - Variance drivers from the submitted report
- - Historical trend (IMPROVING/WORSENING/STABLE)
- - Required action under EDA variance policy}
-
----
-
-## Required Actions & Escalations
-
-| Department | Variance % | Policy Status | Required Action | Deadline |
-|---|---|---|---|---|
-{rows only for departments with variance_pct > 5% or < -15%}
-
----
-
-## Historical Trend Analysis
-
-{2–3 sentences summarising whether the overall overspend pattern is new or recurring,
-referencing the last 4 quarters of historical data}
-
----
-
-## Recommendations
-
-{3–5 numbered recommendations based on the analysis}
-
----
-
-## Data Notes
-
-{Any data quality issues, caveats, or limitations noted by the analysis agents}
-
----
-
-*Report generated by EDA Budget Variance Workflow · Powered by Azure AI Agent Service*
-
----
-
-DECISION RULES:
-- Use 🚨 for CRITICAL (>25% overspend — Board notification required)
-- Use 🔶 for SIGNIFICANT (10–25% overspend — CFO approval required)
-- Use ⚠️ for MINOR (5–10% variance)
-- Use ✅ for ACCEPTABLE (<5% variance)
-- Use 🔵 for UNDERSPEND_REVIEW (< -15% underspend)
-""".strip()
+MCP_DATA_INSTRUCTIONS = load_prompt("agent1_mcp_data.txt")
+# agent2_web_search.txt is the SYSTEM PROMPT configured in the Foundry portal agent.
+# We do NOT send it as the user message — the deployed agent already has it.
+# We reference it here only for documentation/debugging.
+_WEB_SEARCH_SYSTEM_PROMPT_REF = load_prompt("agent2_web_search.txt")
+CODE_INTERPRETER_INSTRUCTIONS = load_prompt("agent3_code_interpreter.txt")
+POLICY_INSTRUCTIONS = load_prompt("agent4_foundry_iq.txt")
+SUMMARY_INSTRUCTIONS = load_prompt("agent5_summary.txt")
 
 
 # ---------------------------------------------------------------------------
@@ -471,29 +273,33 @@ def _banner(title: str) -> None:
 
 class BudgetVarianceWorkflowExecutor:
     """
-    Sequential five-agent workflow executor for Budget Variance Report analysis.
+    Sequential six-agent workflow executor for Budget Variance Report analysis.
 
-    Step 1  — MCP Data Agent
-              Calls the Budget Data MCP Server (FastMCP, localhost:8001) via the
-              Azure OpenAI Responses API MCP tool type to retrieve authoritative
-              approved budgets, historical actuals, and variance policy.
+    Step 1  — MCP Data Agent (BudgetReportsMCPAgent)
+              Retrieves department-submitted variance narrative reports containing
+              justifications, explanations, and remediation plans.
+              Source: MCP server serving department_reports/*.md files
 
-    Step 2  — Web Search Agent
-              Uses the Azure AI Foundry WebSearchAgent (agent_reference) to pull
-              macroeconomic context: UAE inflation, sector benchmarks, news.
+    Step 2  — Web Search Agent (WebSearchBudgetsAgent)
+              Searches for macroeconomic context (UAE inflation, sector benchmarks)
+              to validate department claims against external economic data.
 
-    Step 3  — Code Interpreter Agent
-              Azure AI Agent Service with code_interpreter tool. Computes
-              per-department variances, applies policy thresholds, trend analysis.
-              Returns structured JSON (BudgetVarianceOutput schema).
+    Step 3  — Code Interpreter Agent (BudgetVarianceCodeIntAgent)
+              Analyzes official CSV files (approved_budgets.csv, historical_actuals.csv)
+              and reconciles actual data against department claims from Agent 1.
+              Performs 3-way reconciliation: Claims vs. Reality vs. External validation.
 
-    Step 4  — Summary Agent
-              Synthesises steps 1–3 into a professional Markdown report,
-              then converts to Word (.docx).
+    Step 4  — Foundry IQ Policy Agent (BudgetPolicyAgent)
+              Uses Azure AI Search to retrieve policy guidance from ingested documents
+              (Financial Management Act, procurement guidelines, IT spending rules).
+              Provides compliance requirements and regulatory context.
 
-    Step 5  — Outlook Mail Agent
-              Uses the Azure AI Foundry OutlookWorkIQAgent (agent_reference) to
-              send the final report to lananoor@microsoft.com.
+    Step 5  — Summary Agent (Responses API)
+              Synthesizes outputs from Agents 1-4 into a comprehensive executive
+              Markdown report, then converts to Word (.docx).
+
+    Step 6  — Outlook Mail Agent (BudgetWorkIQMailAgent)
+              Sends the final report to lananoor@microsoft.com via Outlook.
     """
 
     def __init__(self) -> None:
@@ -514,31 +320,37 @@ class BudgetVarianceWorkflowExecutor:
 
     async def execute(self, budget_report_input: str) -> dict:
         """
-        Run the full budget variance workflow.
+        Run the full budget variance workflow with 6 agents.
 
         Args:
             budget_report_input: Budget variance report in Markdown format.
 
         Returns:
-            dict with keys: mcp_data, web_context, analysis, summary,
-                            markdown_report_path, word_doc_path, mail_result.
+            dict with keys: mcp_data, web_context, analysis, policy_guidance,
+                            summary, markdown_report_path, word_doc_path, mail_result.
         """
-        _banner("BUDGET VARIANCE WORKFLOW — START")
+        _banner("BUDGET VARIANCE WORKFLOW — START (6 AGENTS)")
 
-        # ── Step 1: MCP Data Retrieval ───────────────────────────────────
+        # ── Step 1: MCP Data Retrieval (Department Claims) ──────────────
         mcp_data_text = await self._run_mcp_data(budget_report_input)
 
-        # ── Step 2: Web Search Context ───────────────────────────────────
-        web_context_text = await self._run_web_search(budget_report_input)
+        # ── Step 2: Web Search Context (Economic Validation) ────────────
+        # Pass Agent 1 output so Agent 2 knows WHICH department claims to validate
+        web_context_text = await self._run_web_search(budget_report_input, mcp_data_text)
 
-        # ── Step 3: Code Interpreter Analysis ───────────────────────────
+        # ── Step 3: Code Interpreter Analysis (Official CSV Data) ───────
         analysis_text = await self._run_code_analysis(
             budget_report_input, mcp_data_text, web_context_text
         )
 
-        # ── Step 4: Summary → Markdown + Word ───────────────────────────
+        # ── Step 4: Foundry IQ Policy Guidance (AI Search) ──────────────
+        policy_text = await self._run_policy_agent(
+            mcp_data_text, web_context_text, analysis_text
+        )
+
+        # ── Step 5: Summary → Markdown + Word (Responses API) ───────────
         summary_markdown = await self._run_summary(
-            budget_report_input, mcp_data_text, web_context_text, analysis_text
+            budget_report_input, mcp_data_text, web_context_text, analysis_text, policy_text
         )
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -555,7 +367,7 @@ class BudgetVarianceWorkflowExecutor:
         except RuntimeError as exc:
             print(f"[Executor] Word conversion skipped: {exc}")
 
-        # ── Step 5: Outlook Mail ─────────────────────────────────────────
+        # ── Step 6: Outlook Mail (Email Delivery) ───────────────────────
         mail_result = await self._run_outlook_mail(summary_markdown, word_path)
 
         _banner("WORKFLOW COMPLETE")
@@ -564,6 +376,7 @@ class BudgetVarianceWorkflowExecutor:
             "mcp_data": mcp_data_text,
             "web_context": web_context_text,
             "analysis": analysis_text,
+            "policy_guidance": policy_text,
             "summary": summary_markdown,
             "markdown_report_path": str(md_path),
             "word_doc_path": str(word_path) if word_path else None,
@@ -571,59 +384,89 @@ class BudgetVarianceWorkflowExecutor:
         }
 
     # ------------------------------------------------------------------
-    # Agent 1 — MCP Data Agent (Responses API + FastMCP server)
+    # Agent 1 — MCP Data Agent (BudgetReportsMCPAgent)
     # ------------------------------------------------------------------
 
     async def _run_mcp_data(self, budget_report_input: str) -> str:
-        print(f"\n[Agent 1] MCP Data Agent — connecting to {MCP_SERVER_URL}...")
+        print(f"\n[Agent 1] MCP Data Agent — calling {BUDGET_MCP_AGENT} v{BUDGET_MCP_VERSION}...")
+        print("[Agent 1] Retrieving department-submitted narrative reports...")
+
+        # Use the prompt instructions from the agent configuration
         response = self.openai_client.responses.create(
-            model=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
             input=[
                 {
                     "role": "user",
                     "content": (
-                        "Retrieve all relevant budget data for the report below "
-                        "and return a structured JSON summary.\n\n"
-                        f"=== SUBMITTED REPORT ===\n{budget_report_input}"
+                        "Retrieve all department variance narrative reports for Q1 2026. "
+                        "Use the MCP tools to gather:\n"
+                        "- IT department variance report\n"
+                        "- HR department variance report\n"
+                        "- Infrastructure department variance report\n\n"
+                        "These reports contain department justifications and claims. "
+                        "Return the full narrative content.\n\n"
+                        f"Context from submitted report:\n{budget_report_input[:500]}"
                     ),
                 }
             ],
-            instructions=MCP_DATA_INSTRUCTIONS,
-            tools=[
-                {
-                    "type": "mcp",
-                    "server_label": "budget_data_server",
-                    "server_url": MCP_SERVER_URL,
-                    "require_approval": "never",
-                }
-            ],
-        )
-        text = response.output_text
-        print(f"[Agent 1] Done.\n{text[:200]}...\n")
-        return text
-
-    # ------------------------------------------------------------------
-    # Agent 2 — Web Search Agent (agent_reference)
-    # ------------------------------------------------------------------
-
-    async def _run_web_search(self, budget_report_input: str) -> str:
-        print("\n[Agent 2] Web Search Agent (WebSearchAgent) — running...")
-        response = self.openai_client.responses.create(
-            input=[{"role": "user", "content": WEB_SEARCH_PROMPT_TEMPLATE}],
             extra_body={
                 "agent_reference": {
-                    "name": WEB_SEARCH_AGENT,
-                    "version": WEB_SEARCH_VERSION,
+                    "name": BUDGET_MCP_AGENT,
+                    "version": str(BUDGET_MCP_VERSION),
                     "type": "agent_reference",
                 }
             },
         )
         text = response.output_text
-        print(f"[Agent 2] Done.\n{text[:200]}...\n")
+        print(f"[Agent 1] Done. Retrieved department narratives.\n{text[:200]}...\n")
         return text
 
     # ------------------------------------------------------------------
-    # Agent 3 — Code Interpreter Agent (Azure AI Agent Service)
+    # Agent 2 — Web Search Agent (WebSearchBudgetsAgent)
+    # ------------------------------------------------------------------
+
+    async def _run_web_search(self, budget_report_input: str, mcp_data_text: str) -> str:
+        """
+        Agent 2: Web Search — validates department claims from Agent 1 against
+        external economic data (UAE inflation, cloud costs, energy, cybersecurity, etc.).
+
+        IMPORTANT: The agent deployed in Foundry already has its system prompt configured.
+        We send only the USER MESSAGE here — a focused task with Agent 1's claims as context.
+        """
+        print(f"\n[Agent 2] Web Search Agent — calling {WEB_SEARCH_AGENT} v{WEB_SEARCH_VERSION}...")
+        print("[Agent 2] Validating department claims against Q1 2026 economic data...")
+
+        # Build a focused user-turn message so the Foundry agent knows exactly what to validate.
+        # The agent's system prompt (agent2_web_search.txt) already defines search strategy,
+        # output schema, and validation language — we must NOT repeat it here.
+        user_message = (
+            "Validate the following department variance claims against Q1 2026 "
+            "(January – March 2026) external economic data.\n\n"
+            "=== DEPARTMENT NARRATIVE CLAIMS (Agent 1 / MCP output) ===\n"
+            f"{mcp_data_text}\n\n"
+            "For each claim above, search for current data and return "
+            "CONFIRMED / PARTIALLY CONFIRMED / UNCLEAR / CONTRADICTS.\n"
+            "Focus areas: UAE inflation, cloud computing cost trends, energy & utilities pricing, "
+            "cybersecurity incident landscape, public-sector recruitment market, and "
+            "government regulatory mandates (Zero Trust, procurement rules).\n\n"
+            "Return ONLY valid JSON matching the schema in your instructions."
+        )
+
+        response = self.openai_client.responses.create(
+            input=[{"role": "user", "content": user_message}],
+            extra_body={
+                "agent_reference": {
+                    "name": WEB_SEARCH_AGENT,
+                    "version": str(WEB_SEARCH_VERSION),
+                    "type": "agent_reference",
+                }
+            },
+        )
+        text = response.output_text
+        print(f"[Agent 2] Done. Economic validation complete.\n{text[:200]}...\n")
+        return text
+
+    # ------------------------------------------------------------------
+    # Agent 3 — Code Interpreter Agent (BudgetVarianceCodeIntAgent)
     # ------------------------------------------------------------------
 
     async def _run_code_analysis(
@@ -632,33 +475,87 @@ class BudgetVarianceWorkflowExecutor:
         mcp_data_text: str,
         web_context_text: str,
     ) -> str:
-        print("\n[Agent 3] Code Interpreter Agent — running...")
+        print(f"\n[Agent 3] Code Interpreter Agent — calling {CODE_INTERPRETER_AGENT} v{CODE_INTERPRETER_VERSION}...")
+        print("[Agent 3] Analyzing official CSV files and reconciling against claims...")
         query = (
-            "Use code interpreter to complete the variance analysis.\n\n"
-            "=== SUBMITTED BUDGET REPORT ===\n"
-            f"{budget_report_input}\n\n"
-            "=== MCP DATA (approved budgets + historical actuals + policy) ===\n"
+            "Use code interpreter to perform 3-way reconciliation analysis.\n\n"
+            "You have access to the following CSV files as attachments:\n"
+            "- approved_budgets.csv (official approved budgets)\n"
+            "- historical_actuals.csv (official spending data)\n\n"
+            "=== DEPARTMENT CLAIMS (from MCP) ===\n"
             f"{mcp_data_text}\n\n"
-            "=== WEB RESEARCH CONTEXT ===\n"
+            "=== ECONOMIC VALIDATION (from Web Search) ===\n"
             f"{web_context_text}\n\n"
-            "Return ONLY valid JSON matching the required output schema."
+            "=== ORIGINAL REPORT CONTEXT ===\n"
+            f"{budget_report_input[:500]}\n\n"
+            "TASK:\n"
+            "1. Load and analyze the CSV files\n"
+            "2. Calculate actual variances from official data\n"
+            "3. Compare department claims vs. actual data (reconciliation)\n"
+            "4. Identify discrepancies and assess credibility\n"
+            "5. Apply policy thresholds and flag issues\n"
+            "6. Return structured JSON matching BudgetVarianceOutput schema."
         )
-        async with AzureCliCredential() as credential:
-            async with AzureAIAgentClient(
-                credential=credential,
-                project_endpoint=os.getenv("AZURE_AI_PROJECT_ENDPOINT"),
-            ).as_agent(
-                name="BudgetCodeInterpreterAgent",
-                instructions=CODE_INTERPRETER_INSTRUCTIONS,
-                tools=[AzureAIAgentClient.get_code_interpreter_tool()],
-            ) as agent:
-                result = await agent.run(query)
-        text = _extract_text_from_result(result)
-        print(f"[Agent 3] Done.\n{text[:200]}...\n")
+        response = self.openai_client.responses.create(
+            input=[{"role": "user", "content": query}],
+            extra_body={
+                "agent_reference": {
+                    "name": CODE_INTERPRETER_AGENT,
+                    "version": str(CODE_INTERPRETER_VERSION),
+                    "type": "agent_reference",
+                }
+            },
+        )
+        text = response.output_text
+        print(f"[Agent 3] Done. Completed reconciliation analysis.\n{text[:200]}...\n")
         return text
 
     # ------------------------------------------------------------------
-    # Agent 4 — Summary Agent (Responses API)
+    # Agent 4 — Foundry IQ Policy Agent (BudgetPolicyAgent)
+    # ------------------------------------------------------------------
+
+    async def _run_policy_agent(
+        self,
+        mcp_data_text: str,
+        web_context_text: str,
+        analysis_text: str,
+    ) -> str:
+        print(f"\n[Agent 4] Foundry IQ Policy Agent — calling {POLICY_AGENT} v{POLICY_VERSION}...")
+        print("[Agent 4] Querying AI Search for policy guidance...")
+        query = (
+            "Use Azure AI Search to retrieve relevant policy guidance for this budget variance situation.\n\n"
+            "=== DEPARTMENT CLAIMS ===\n"
+            f"{mcp_data_text[:800]}\n\n"
+            "=== ECONOMIC CONTEXT ===\n"
+            f"{web_context_text[:800]}\n\n"
+            "=== VARIANCE ANALYSIS FINDINGS ===\n"
+            f"{analysis_text[:800]}\n\n"
+            "TASK:\n"
+            "Search the policy documents and provide:\n"
+            "1. Relevant sections from the Financial Management Act\n"
+            "2. IT Technology Spending Guidelines (if IT overspend detected)\n"
+            "3. Procurement guidelines (if applicable)\n"
+            "4. Variance thresholds and escalation procedures\n"
+            "5. Compliance requirements and timelines\n"
+            "6. Any regulatory risks or penalties\n\n"
+            "Return structured policy guidance with document references."
+        )
+        response = self.openai_client.responses.create(
+            input=[{"role": "user", "content": query}],
+            extra_body={
+                "agent_reference": {
+                    "name": POLICY_AGENT,
+                    "version": str(POLICY_VERSION),
+                    "type": "agent_reference",
+                }
+            },
+        )
+        text = response.output_text
+        print(f"[Agent 4] Done. Retrieved policy guidance.\n{text[:200]}...\n")
+        return text
+
+    # ------------------------------------------------------------------
+    # Agent 5 — Summary Agent (Responses API)
     # ------------------------------------------------------------------
 
     async def _run_summary(
@@ -667,36 +564,47 @@ class BudgetVarianceWorkflowExecutor:
         mcp_data_text: str,
         web_context_text: str,
         analysis_text: str,
+        policy_text: str,
     ) -> str:
-        print("\n[Agent 4] Summary Agent — running...")
+        print("\n[Agent 5] Summary Agent (Responses API) — running...")
+        print("[Agent 5] Synthesizing comprehensive executive report...")
         agent = Agent(
             client=self.responses_client,
             instructions=SUMMARY_INSTRUCTIONS,
         )
         query = (
-            "Generate the full Markdown budget variance report using these inputs.\n\n"
+            "Generate the full Markdown executive budget variance report using ALL inputs below.\n\n"
             "=== ORIGINAL SUBMITTED REPORT ===\n"
             f"{budget_report_input}\n\n"
-            "=== MCP DATA RETRIEVAL RESULT ===\n"
+            "=== DEPARTMENT NARRATIVE CLAIMS (Agent 1: MCP) ===\n"
             f"{mcp_data_text}\n\n"
-            "=== WEB RESEARCH CONTEXT ===\n"
+            "=== ECONOMIC VALIDATION CONTEXT (Agent 2: Web Search) ===\n"
             f"{web_context_text}\n\n"
-            "=== VARIANCE ANALYSIS RESULT ===\n"
-            f"{analysis_text}"
+            "=== OFFICIAL DATA ANALYSIS & RECONCILIATION (Agent 3: Code Interpreter) ===\n"
+            f"{analysis_text}\n\n"
+            "=== POLICY & COMPLIANCE GUIDANCE (Agent 4: Foundry IQ) ===\n"
+            f"{policy_text}\n\n"
+            "Synthesize a comprehensive executive report that includes:\n"
+            "1. Department claims and justifications\n"
+            "2. Reconciliation findings (claims vs. reality)\n"
+            "3. Economic context validation\n"
+            "4. Policy compliance assessment\n"
+            "5. Executive summary and recommendations"
         )
         result = await agent.run(query)
         text = _extract_text_from_result(result)
-        print("[Agent 4] Done.\n")
+        print("[Agent 5] Done. Executive report generated.\n")
         return text
 
     # ------------------------------------------------------------------
-    # Agent 5 — Outlook Mail Agent (agent_reference)
+    # Agent 6 — Outlook Mail Agent (BudgetWorkIQMailAgent)
     # ------------------------------------------------------------------
 
     async def _run_outlook_mail(
         self, summary_markdown: str, word_doc_path: Optional[Path]
     ) -> str:
-        print(f"\n[Agent 5] Outlook Mail Agent — sending to {OUTLOOK_RECIPIENT}...")
+        print(f"\n[Agent 6] Outlook Mail Agent — calling {OUTLOOK_AGENT} v{OUTLOOK_VERSION}...")
+        print(f"[Agent 6] Sending email to {OUTLOOK_RECIPIENT}...")
 
         word_note = (
             f"A Word document version of this report has been saved to: {word_doc_path}"
@@ -708,14 +616,22 @@ class BudgetVarianceWorkflowExecutor:
 Please compose and send a professional email with the following details:
 
 To: {OUTLOOK_RECIPIENT}
-Subject: Budget Variance Analysis Report — EDA Q1 2026
+Subject: Q1 2026 Budget Variance Analysis Report — Emirates Digital Authority (EDA)
+
+IMPORTANT: Send this email to {OUTLOOK_RECIPIENT} — this is the confirmed recipient.
 
 Email body should:
 1. Open with a brief professional introduction (2-3 sentences) explaining this is an
-   AI-assisted budget variance analysis for the Emirates Digital Authority Q1 2026.
-2. Include a short summary of the headline findings (total overspend, departments flagged).
-3. State that the full analysis report is included below.
-4. Close professionally.
+   AI-assisted budget variance analysis for the Emirates Digital Authority (EDA) for Q1 2026.
+2. Include a concise summary of the headline findings:
+   - Total overspend amount (AED) and percentage
+   - Number of CRITICAL departments (requiring Board notification)
+   - Number of SIGNIFICANT departments (requiring CFO approval)
+3. List the required actions with their deadlines.
+4. State that the full analysis report is included below.
+5. Close professionally.
+
+Set the email importance to HIGH if any CRITICAL or SIGNIFICANT variances are present.
 
 Then append the full report content below the email closing:
 
@@ -723,7 +639,7 @@ Then append the full report content below the email closing:
 
 ---
 {word_note}
-This email was generated automatically by the EDA Budget Variance Workflow.
+This email was generated automatically by the Budget Variance Workflow (Azure AI Foundry).
 """.strip()
 
         response = self.openai_client.responses.create(
@@ -731,13 +647,13 @@ This email was generated automatically by the EDA Budget Variance Workflow.
             extra_body={
                 "agent_reference": {
                     "name": OUTLOOK_AGENT,
-                    "version": OUTLOOK_VERSION,
+                    "version": str(OUTLOOK_VERSION),
                     "type": "agent_reference",
                 }
             },
         )
         text = response.output_text
-        print(f"[Agent 5] Done. Mail result: {text[:150]}...\n")
+        print(f"[Agent 6] Done. Email sent successfully.\n{text[:150]}...\n")
         return text
 
 
@@ -746,10 +662,16 @@ This email was generated automatically by the EDA Budget Variance Workflow.
 # ---------------------------------------------------------------------------
 
 def _load_sample_report() -> str:
-    sample_path = Path(__file__).parent / "sample_budget_report.md"
+    """Load the sample budget report from the data/ subfolder."""
+    # Primary location: data/sample_budget_report.md
+    sample_path = Path(__file__).parent / "data" / "sample_budget_report.md"
     if sample_path.exists():
         return sample_path.read_text(encoding="utf-8")
-    return "# Budget Variance Report\n\n(sample_budget_report.md not found)"
+    # Fallback: same directory as the script (legacy location)
+    fallback_path = Path(__file__).parent / "sample_budget_report.md"
+    if fallback_path.exists():
+        return fallback_path.read_text(encoding="utf-8")
+    return "# Budget Variance Report\n\n(sample_budget_report.md not found — expected at data/sample_budget_report.md)"
 
 
 SAMPLE_BUDGET_REPORT_MARKDOWN = _load_sample_report()

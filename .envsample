@@ -12,7 +12,7 @@ AZURE_OPENAI_API_VERSION=2025-03-01-preview
 # Start with: python budget_mcp_server.py
 MCP_SERVER_URL=http://localhost:8001
 
-# ── Agent References (Azure AI Foundry deployed agents) ─────────────────────
+# ── Agent References (Microsoft Foundry Agent Service deployed agents) ─────────────────────
 WEB_SEARCH_AGENT_NAME=WebSearchAgent
 WEB_SEARCH_AGENT_VERSION=13
 OUTLOOK_AGENT_NAME=OutlookWorkIQAgent
