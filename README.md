@@ -23,7 +23,7 @@ The framework now distinguishes between two Foundry agent types:
 
 | Agent Type | Class | Description | Use When |
 |------------|-------|-------------|----------|
-| **Responses Agent** | `ChatClientAgent` | Inline agents where you provide model, instructions, and tools programmatically at runtime. No server-side resource created. | Agent 5 (Summary) - synthesizing outputs without external tools |
+| **Responses Agent** | `FoundryChatClient` | Inline agents where you provide model, instructions, and tools programmatically at runtime. No server-side resource created. | Agent 5 (Summary) - synthesizing outputs without external tools |
 | **Foundry Agent** | `FoundryAgent` | Server-managed agents created and versioned in the Foundry portal with persistent chat history. | Agents 1-4, 6 - deployed agents with MCP, Web Search, Code Interpreter, AI Search, Outlook |
 
 ### Migration from Responses API
@@ -37,10 +37,27 @@ client = AzureOpenAIResponsesClient(...)
 
 **After (GA 1.0.1):**
 ```python
-from agent_framework.foundry import AIProjectClient
+from agent_framework.foundry import FoundryChatClient
 
-client = AIProjectClient.from_connection_string(...)
-```
+client = FoundryChatClient(project_endpoint=<your_foundry_project_endpoint>, 
+            model="gpt-5.4-mini",
+            credential=AzureCliCredential()
+            )
+  ```
+
+### Migration from Foundry Agent Service
+
+**After (GA 1.0.1):**
+```python
+from agent_framework.foundry import FoundryAgent
+
+client = FoundryAgent(project_endpoint=<your_foundry_project_endpoint>, 
+                agent_name="", 
+                model="gpt-5.4-mini",
+                agent_version="",
+                credential=AzureCliCredential()
+                )
+  ```
 
 ### Installation
 
@@ -51,13 +68,7 @@ pip install agent-framework>=1.0.1
 pip install agent-framework-foundry>=1.0.1
 ```
 
-**Key Benefits:**
-- ✅ Production-ready stable API
-- ✅ Standardized agent abstraction across .NET and Python
-- ✅ Better separation between inline agents (ChatClientAgent) and portal-managed agents (FoundryAgent)
-- ✅ Full backward compatibility with orchestration patterns
-
-📚 **Learn more:** [Microsoft Agent Framework 1.0 Documentation](https://learn.microsoft.com/en-us/agent-framework/)
+📚 **Learn more:** [Microsoft Agent Framework 1.0.1 Documentation](https://learn.microsoft.com/en-us/agent-framework/)
 
 ---
 
