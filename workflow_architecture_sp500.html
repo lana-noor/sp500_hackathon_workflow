@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S&P 500 Research Workflow — Architecture</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0D1B3E;
+      color: #D6E4F7;
+      min-height: 100vh;
+      padding: 32px 24px 48px;
+    }
+
+    /* ── Page header ──────────────────────────────────────── */
+    .page-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .page-header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.02em;
+    }
+    .page-header .gold-bar {
+      width: 80px;
+      height: 4px;
+      background: #F0A500;
+      margin: 12px auto 10px;
+      border-radius: 2px;
+    }
+    .page-header p {
+      font-size: 0.9rem;
+      color: #90A8C8;
+    }
+
+    /* ── Main layout ──────────────────────────────────────── */
+    .diagram {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ── Shared node shell ────────────────────────────────── */
+    .node {
+      width: 100%;
+      border-radius: 10px;
+      border: 1.5px solid rgba(214, 228, 247, 0.15);
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+    }
+
+    .node-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+    }
+    .node-header .badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      white-space: nowrap;
+    }
+    .node-body {
+      display: flex;
+      gap: 0;
+    }
+    .node-col {
+      flex: 1;
+      padding: 14px 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .node-col + .node-col {
+      border-left: 1px solid rgba(255,255,255,0.08);
+    }
+    .node-col h4 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+      color: rgba(214,228,247,0.6);
+    }
+    .node-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .node-col ul li {
+      font-size: 0.82rem;
+      color: #C8D0DC;
+      padding-left: 14px;
+      position: relative;
+      line-height: 1.4;
+    }
+    .node-col ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #F0A500;
+      font-weight: 700;
+    }
+
+    /* ── Colour variants per agent ────────────────────────── */
+    .node-start  { background: #0F2550; }
+    .node-start  .node-header { background: #1A376C; color: #fff; }
+
+    .node-a1     { background: #12234A; }
+    .node-a1     .node-header { background: #275EAD; color: #fff; }
+
+    .node-a2     { background: #1A1A40; }
+    .node-a2     .node-header { background: #4A2D91; color: #fff; }
+
+    .node-a3     { background: #1A2E35; }
+    .node-a3     .node-header { background: #1E6E75; color: #fff; }
+
+    .node-a4     { background: #251A10; }
+    .node-a4     .node-header { background: #C06020; color: #fff; }
+
+    .node-a5     { background: #1A2E1A; }
+    .node-a5     .node-header { background: #1E7E45; color: #fff; }
+
+    .node-fn     { background: #251F0A; }
+    .node-fn     .node-header { background: #7A6010; color: #fff; }
+
+    .node-output { background: #0F2550; }
+    .node-output .node-header { background: #1A376C; color: #fff; }
+
+    /* ── Arrow connector ──────────────────────────────────── */
+    .arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      margin: 2px 0;
+    }
+    .arrow-line {
+      width: 2px;
+      height: 24px;
+      background: linear-gradient(to bottom, #275EAD, #F0A500);
+    }
+    .arrow-tip {
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 10px solid #F0A500;
+    }
+    .arrow-label {
+      font-size: 0.68rem;
+      color: #90A8C8;
+      letter-spacing: 0.04em;
+      margin-top: -2px;
+      margin-bottom: 2px;
+    }
+
+    /* ── Data source pill ─────────────────────────────────── */
+    .data-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 6px 0 2px;
+    }
+    .data-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border: 1.5px solid;
+    }
+    .data-pill.csv {
+      background: rgba(74,45,145,0.25);
+      border-color: #7B5CC8;
+      color: #C8B8F8;
+    }
+    .data-pill.api {
+      background: rgba(192,96,32,0.25);
+      border-color: #C06020;
+      color: #F0A070;
+    }
+    .data-pill .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .data-pill.csv .dot { background: #7B5CC8; }
+    .data-pill.api .dot { background: #C06020; }
+
+    /* ── Loop annotation ──────────────────────────────────── */
+    .loop-tag {
+      font-size: 0.7rem;
+      color: #C06020;
+      font-weight: 700;
+      background: rgba(192,96,32,0.18);
+      border: 1px solid rgba(192,96,32,0.4);
+      border-radius: 4px;
+      padding: 2px 7px;
+      margin-left: 8px;
+    }
+
+    /* ── Output grid ──────────────────────────────────────── */
+    .output-grid {
+      display: flex;
+      gap: 12px;
+      padding: 16px 18px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .output-card {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(214,228,247,0.15);
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .output-card .oc-icon {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+    .output-card .oc-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .output-card .oc-desc {
+      font-size: 0.72rem;
+      color: #90A8C8;
+      line-height: 1.4;
+    }
+
+    /* ── Validation badge on Agent 2 ──────────────────────── */
+    .validation-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      color: #1E7E45;
+      font-weight: 700;
+      background: rgba(30,126,69,0.2);
+      border: 1px solid rgba(30,126,69,0.5);
+      border-radius: 4px;
+      padding: 2px 7px;
+      margin-left: 8px;
+    }
+
+    /* ── Legend ───────────────────────────────────────────── */
+    .legend {
+      max-width: 860px;
+      margin: 32px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-top: 1px solid rgba(214,228,247,0.1);
+      padding-top: 24px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: #90A8C8;
+    }
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 600px) {
+      .node-body { flex-direction: column; }
+      .node-col + .node-col { border-left: none; border-top: 1px solid rgba(255,255,255,0.08); }
+      .output-grid { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <h1>S&amp;P 500 Research Workflow — Architecture</h1>
+    <div class="gold-bar"></div>
+    <p>505 S&amp;P 500 companies &nbsp;·&nbsp; 11 GICS sectors &nbsp;·&nbsp; January 2017 – December 2021 &nbsp;·&nbsp; 5 sequential agents</p>
+  </div>
+
+  <div class="diagram">
+
+    <!-- ── User Query ────────────────────────────────────── -->
+    <div class="node node-start">
+      <div class="node-header">
+        <span>&#128269;</span>
+        <span>User Query</span>
+      </div>
+      <div class="node-body">
+        <div class="node-col">
+          <ul>
+            <li>Natural language research question about S&amp;P 500 performance (2017–2021)</li>
+            <li>Examples: single stock deep dive, sector comparison, ranking, risk analysis, correlation study</li>
+            <li>Passed to <code style="background:rgba(255,255,255,0.1);padding:1px 5px;border-radius:3px;font-size:0.8em">portfolio_risk_workflow.py --query "..."</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-tip"></div>
+    </div>
+
+    <!-- ── Agent 1 ────────────────────────────────────────── -->
+    <div class="node node-a1">
+      <div class="node-header">
+        <span>&#129302;</span>
+        <span>Agent 1 &nbsp;—&nbsp; Query Planner</span>
+        <span class="badge">FoundryChatClient</span>
+      </div>
+      <div class="node-body">
+        <div class="node-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Classifies query intent (sector_comparison, single_stock_deep_dive, ranking, risk_analysis, correlation_study, general)</li>
+            <li>Resolves tickers and sectors in scope</li>
+            <li>Generates 3–5 <strong>analytical questions</strong> (answerable from CSV data)</li>
+            <li>Generates 2–3 <strong>qualitative questions</strong> (for web research)</li>
+            <li>Sets the presentation angle for the final deck</li>
+          </ul>
+        </div>
+        <div class="node-col">
+          <h4>Output JSON Keys</h4>
+          <ul>
+            <li><code>intent</code> — query classification</li>
+            <li><code>scope.tickers</code> / <code>scope.sectors</code></li>
+            <li><code>time_window</code> — start / end month</li>
+            <li><code>analytical_questions[]</code></li>
+            <li><code>qualitative_questions[]</code></li>
+            <li><code>presentation_angle</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-label">research plan JSON</div>
+      <div class="arrow-tip"></div>
+    </div>
+
+    <!-- ── Agent 2 ────────────────────────────────────────── -->
+    <div class="data-row">
+      <div class="data-pill csv"><div class="dot"></div>tickerlist.csv &nbsp;505 constituents</div>
+      <div class="data-pill csv"><div class="dot"></div>returns.csv &nbsp;60 monthly returns</div>
+      <div class="data-pill csv"><div class="dot"></div>prices.csv &nbsp;monthly snapshots</div>
+    </div>
+
+    <div class="node node-a2">
+      <div class="node-header">
+        <span>&#128202;</span>
+        <span>Agent 2 &nbsp;—&nbsp; Quantitative Analyst</span>
+        <span class="badge">FoundryAgent + Code Interpreter</span>
+        <span class="validation-tag">&#10003; Validated</span>
+      </div>
+      <div class="node-body">
+        <div class="node-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Loads all three CSV files in a Python sandbox (pandas / numpy)</li>
+            <li>Answers every analytical question with real computed values — no estimates</li>
+            <li>Computes: cumulative return, year-by-year annual returns, max drawdown, Sharpe ratio, annualised volatility, correlations, rankings</li>
+            <li>Output validated — rejects hallucinated templates, placeholder text, or missing <code>findings</code> key</li>
+          </ul>
+        </div>
+        <div class="node-col">
+          <h4>Output JSON Keys</h4>
+          <ul>
+            <li><code>findings[]</code> — question + answer + supporting_numbers</li>
+            <li><code>data_coverage</code> — months, date range, ticker count</li>
+            <li><code>data_summary.top_performers[]</code></li>
+            <li><code>data_summary.bottom_performers[]</code></li>
+            <li><code>data_summary.key_stats</code></li>
+            <li><code>out_of_scope[]</code> — unanswerable questions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-label">findings JSON with real computed numbers</div>
+      <div class="arrow-tip"></div>
+    </div>
+
+    <!-- ── Agent 3 ────────────────────────────────────────── -->
+    <div class="node node-a3">
+      <div class="node-header">
+        <span>&#128269;</span>
+        <span>Agent 3 &nbsp;—&nbsp; Search Query Expander</span>
+        <span class="badge">FoundryChatClient</span>
+      </div>
+      <div class="node-body">
+        <div class="node-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Reads the research plan (Agent 1) and findings summary (Agent 2)</li>
+            <li>Generates 5–8 precise web search query strings for qualitative context</li>
+            <li>Queries describe business drivers, macro events, industry themes — not raw statistics</li>
+            <li>Each query targets a specific qualitative question with a preferred source type</li>
+          </ul>
+        </div>
+        <div class="node-col">
+          <h4>Output JSON Keys</h4>
+          <ul>
+            <li><code>queries[].query_id</code></li>
+            <li><code>queries[].query_string</code> — ready-to-pass search string</li>
+            <li><code>queries[].serves_question</code></li>
+            <li><code>queries[].preferred_source_type</code></li>
+            <li><code>grounding_note</code> — how findings shaped queries</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-label">5–8 search query strings</div>
+      <div class="arrow-tip"></div>
+    </div>
+
+    <!-- ── Agent 4 ────────────────────────────────────────── -->
+    <div class="data-row">
+      <div class="data-pill api"><div class="dot"></div>Tavily Search API &nbsp;(one call per query)</div>
+    </div>
+
+    <div class="node node-a4">
+      <div class="node-header">
+        <span>&#127758;</span>
+        <span>Agent 4 &nbsp;—&nbsp; Web Researcher</span>
+        <span class="badge">FoundryChatClient + Tavily</span>
+        <span class="loop-tag">&#8635; loop per query</span>
+      </div>
+      <div class="node-body">
+        <div class="node-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Loops through every query from Agent 3</li>
+            <li>Calls Tavily Search API once per query (max 3 results, includes Tavily answer)</li>
+            <li>For each result set, calls FoundryChatClient to extract 2–4 specific factual claims</li>
+            <li>Skips paywalled, promotional, or off-topic sources</li>
+            <li>Records <code>coverage_gap: true</code> when no relevant sources found</li>
+          </ul>
+        </div>
+        <div class="node-col">
+          <h4>Output JSON Keys</h4>
+          <ul>
+            <li><code>evidence_pack[].query_id</code></li>
+            <li><code>evidence_pack[].sources[].url</code></li>
+            <li><code>evidence_pack[].sources[].key_points[]</code></li>
+            <li><code>evidence_pack[].sources[].relevance</code></li>
+            <li><code>evidence_pack[].synthesis_note</code></li>
+            <li><code>coverage_gaps[]</code> — topics with no web evidence</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-label">evidence pack with URLs and sourced claims</div>
+      <div class="arrow-tip"></div>
+    </div>
+
+    <!-- ── Agent 5 ────────────────────────────────────────── -->
+    <div class="node node-a5">
+      <div class="node-header">
+        <span>&#128218;</span>
+        <span>Agent 5 &nbsp;—&nbsp; Synthesizer</span>
+        <span class="badge">FoundryChatClient</span>
+      </div>
+      <div class="node-body">
+        <div class="node-col">
+          <h4>What It Does</h4>
+          <ul>
+            <li>Merges Agent 2 findings and Agent 4 evidence into a structured <code>slide_deck_spec</code> JSON</li>
+            <li>Designs 5–8 slides: title → exec summary → body slides → sources</li>
+            <li>Every factual claim backed by a number from Agent 2 or a URL from Agent 4</li>
+            <li>Year-by-year annual return data always placed in a dedicated comparison_table slide</li>
+          </ul>
+        </div>
+        <div class="node-col">
+          <h4>Slide Types</h4>
+          <ul>
+            <li><code>title</code> — deck title, subtitle, analysis period</li>
+            <li><code>exec_summary</code> — 3–5 bullets with real numbers</li>
+            <li><code>comparison_table</code> — metrics table with exact values</li>
+            <li><code>narrative</code> — qualitative bullets with URL citations</li>
+            <li><code>sources</code> — all unique URLs from evidence pack</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-label">slide_deck_spec JSON</div>
+      <div class="arrow-tip"></div>
+    </div>
+
+    <!-- ── generate_pptx() ─────────────────────────────────── -->
+    <div class="node node-fn">
+      <div class="node-header">
+        <span>&#9881;</span>
+        <span>generate_pptx()</span>
+        <span class="badge">Deterministic Python function — not an LLM</span>
+      </div>
+      <div class="node-body">
+        <div class="node-col">
+          <ul>
+            <li>Reads <code>slide_deck_spec</code> from Agent 5 — no model calls</li>
+            <li>Renders each slide type with python-pptx using the dark navy / gold design theme</li>
+            <li>Comparison tables rendered as styled pptx tables with alternating row fills</li>
+            <li>Footer on every body slide: dataset period, analysis date</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <div class="arrow-line"></div>
+      <div class="arrow-tip"></div>
+    </div>
+
+    <!-- ── Output ─────────────────────────────────────────── -->
+    <div class="node node-output">
+      <div class="node-header">
+        <span>&#128190;</span>
+        <span>Output Files &nbsp;—&nbsp; ./output/</span>
+      </div>
+      <div class="output-grid">
+        <div class="output-card">
+          <div class="oc-icon">&#128196;</div>
+          <div class="oc-title">sp500_analysis_&lt;id&gt;.json</div>
+          <div class="oc-desc">Full checkpoint with all five agent outputs. Resume an interrupted run automatically by re-running with the same query.</div>
+        </div>
+        <div class="output-card">
+          <div class="oc-icon">&#128202;</div>
+          <div class="oc-title">sp500_analysis_&lt;id&gt;.pptx</div>
+          <div class="oc-desc">PowerPoint deck — title, exec summary, comparison tables with real computed numbers, narrative slides with web citations, sources slide.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /diagram -->
+
+  <!-- ── Legend ─────────────────────────────────────────── -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#275EAD"></div>FoundryChatClient — inline, no portal agent</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#4A2D91"></div>FoundryAgent — deployed in Azure AI Foundry portal with tools</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7B5CC8"></div>CSV data files attached to Agent 2 in Foundry portal</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C06020"></div>Tavily Search API — requires TAVILY_API_KEY in .env</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7A6010"></div>generate_pptx() — pure Python, no LLM call</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1E7E45"></div>Agent 2 output validation — rejects hallucinated templates</div>
+  </div>
+
+</body>
+</html>

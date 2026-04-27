@@ -1,7 +1,7 @@
 # Core agent framework
-agent-framework>=1.0.1
-agent-framework-foundry>=1.0.1
-agent-framework-anthropic>=1.0.1
+agent-framework
+agent-framework-foundry
+agent-framework-anthropic
 
 # Azure AI Projects SDK (for AIProjectClient + agent_reference support)
 azure-ai-projects>=2.0.0
@@ -11,6 +11,9 @@ azure-identity>=1.15.0
 
 # Word document generation
 python-docx
+
+# PowerPoint presentation generation (used by portfolio_risk_workflow.py)
+python-pptx
 
 # Environment variable loading
 python-dotenv

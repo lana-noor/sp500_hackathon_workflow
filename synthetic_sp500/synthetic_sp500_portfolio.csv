@@ -1,0 +1,501 @@
+company_id,ticker,company_name,sector,industry,description,market_cap_b,revenue_b,beta,pe_ratio,supply_chain_sensitivity,investment_usd
+1,AHF,Zenith Corp Inc.,Information Technology,Software,Zenith Corp develops enterprise SaaS platforms for workflow automation,258.92,47.19,1.12,5.0,HIGH,1000000
+2,GPO,Wind Select Inc.,Information Technology,Semiconductors,Wind Select designs high-performance GPU and CPU semiconductor chips,0.5,32.67,1.31,20.1,MEDIUM,1000000
+3,SIE,North Corp Inc.,Information Technology,Hardware & Equipment,North Corp manufactures networking hardware and switching equipment,236.47,0.1,1.51,42.5,MEDIUM,1000000
+4,NZJO,Ultra Sciences Inc.,Information Technology,IT Services,Ultra Sciences provides managed cloud and IT outsourcing services,106.94,37.75,1.61,26.8,MEDIUM,1000000
+5,ZWWJ,Quest Secure Inc.,Information Technology,Cloud Infrastructure,Quest Secure operates hyperscale data centre infrastructure,0.5,78.77,1.49,28.7,MEDIUM,1000000
+6,PES,Horizon Networks Inc.,Information Technology,Software,Horizon Networks builds AI-powered analytics and business intelligence tools,0.5,0.1,0.74,75.3,MEDIUM,1000000
+7,FAI,Metro Cast Inc.,Information Technology,Semiconductors,Metro Cast supplies semiconductor fabrication equipment,203.99,0.1,1.57,79.8,MEDIUM,1000000
+8,XQDD,Zero Power Inc.,Information Technology,Hardware & Equipment,Zero Power develops cybersecurity software and threat detection systems,0.5,48.77,0.92,30.8,HIGH,1000000
+9,NCB,Forge Dynamics Inc.,Information Technology,IT Services,Forge Dynamics provides ERP and supply chain management software,16.03,28.51,1.03,15.1,HIGH,1000000
+10,NZWA,Wise Crest Inc.,Information Technology,Cloud Infrastructure,Wise Crest designs mobile processors and system-on-chip solutions,49.79,91.17,1.25,17.7,HIGH,1000000
+11,EASS,Royal Sphere Inc.,Information Technology,Software,Royal Sphere develops enterprise SaaS platforms for workflow automation,195.67,0.1,1.69,73.8,MEDIUM,1000000
+12,DTO,Silver Vision Inc.,Information Technology,Semiconductors,Silver Vision designs high-performance GPU and CPU semiconductor chips,536.69,34.04,1.67,38.1,MEDIUM,1000000
+13,GGOC,World Optima Inc.,Information Technology,Hardware & Equipment,World Optima manufactures networking hardware and switching equipment,0.5,14.71,1.73,5.0,MEDIUM,1000000
+14,GWL,Keystone Wave Inc.,Information Technology,IT Services,Keystone Wave provides managed cloud and IT outsourcing services,132.23,61.2,0.93,30.9,LOW,1000000
+15,LNDF,North Bio Inc.,Information Technology,Cloud Infrastructure,North Bio operates hyperscale data centre infrastructure,94.28,38.85,1.22,31.1,MEDIUM,1000000
+16,BAI,Safe Flow Inc.,Information Technology,Software,Safe Flow builds AI-powered analytics and business intelligence tools,0.5,0.44,1.34,58.4,MEDIUM,1000000
+17,GMKC,Vertex Media Inc.,Information Technology,Semiconductors,Vertex Media supplies semiconductor fabrication equipment,123.78,7.4,1.21,52.7,MEDIUM,1000000
+18,BSU,First Flow Inc.,Information Technology,Hardware & Equipment,First Flow develops cybersecurity software and threat detection systems,161.06,44.55,1.53,58.8,HIGH,1000000
+19,LWO,Crown Select Inc.,Information Technology,IT Services,Crown Select provides ERP and supply chain management software,528.19,0.1,1.97,37.8,MEDIUM,1000000
+20,KMW,Delta Edge Inc.,Information Technology,Cloud Infrastructure,Delta Edge designs mobile processors and system-on-chip solutions,46.6,107.15,0.77,74.0,HIGH,1000000
+21,SSUR,Rise Dynamics Inc.,Information Technology,Software,Rise Dynamics develops enterprise SaaS platforms for workflow automation,384.51,49.3,1.48,49.7,HIGH,1000000
+22,BPNW,Horizon Care Inc.,Information Technology,Semiconductors,Horizon Care designs high-performance GPU and CPU semiconductor chips,185.52,81.84,1.52,36.2,MEDIUM,1000000
+23,KYO,Sterling Resources Inc.,Information Technology,Hardware & Equipment,Sterling Resources manufactures networking hardware and switching equipment,0.5,0.1,1.52,39.8,HIGH,1000000
+24,FSGK,Vibe Select Inc.,Information Technology,IT Services,Vibe Select provides managed cloud and IT outsourcing services,80.91,0.6,1.32,52.9,HIGH,1000000
+25,BFG,Nova Trust Inc.,Information Technology,Cloud Infrastructure,Nova Trust operates hyperscale data centre infrastructure,33.17,72.4,1.6,43.6,HIGH,1000000
+26,PZRA,South Health Inc.,Information Technology,Software,South Health builds AI-powered analytics and business intelligence tools,193.0,0.1,1.53,34.5,MEDIUM,1000000
+27,HPS,Jade Shield Inc.,Information Technology,Semiconductors,Jade Shield supplies semiconductor fabrication equipment,0.5,27.82,1.24,27.5,MEDIUM,1000000
+28,QVB,Nord Stream Inc.,Information Technology,Hardware & Equipment,Nord Stream develops cybersecurity software and threat detection systems,193.91,65.88,1.97,74.8,MEDIUM,1000000
+29,CYR,High Point Inc.,Information Technology,IT Services,High Point provides ERP and supply chain management software,0.5,2.83,1.68,41.9,HIGH,1000000
+30,XUWX,Jade Shield Inc.,Information Technology,Cloud Infrastructure,Jade Shield designs mobile processors and system-on-chip solutions,158.11,0.1,1.4,46.4,HIGH,1000000
+31,YGE,Ideal Trust Inc.,Information Technology,Software,Ideal Trust develops enterprise SaaS platforms for workflow automation,390.71,0.1,1.24,43.9,HIGH,1000000
+32,GUC,Bright Tower Inc.,Information Technology,Semiconductors,Bright Tower designs high-performance GPU and CPU semiconductor chips,241.7,0.1,1.2,40.2,MEDIUM,1000000
+33,FRK,Micro Track Inc.,Information Technology,Hardware & Equipment,Micro Track manufactures networking hardware and switching equipment,0.5,68.02,1.87,51.1,MEDIUM,1000000
+34,YCZE,Main Capital Inc.,Information Technology,IT Services,Main Capital provides managed cloud and IT outsourcing services,56.68,0.1,1.65,50.1,MEDIUM,1000000
+35,KOG,Wide Media Inc.,Information Technology,Cloud Infrastructure,Wide Media operates hyperscale data centre infrastructure,0.5,0.93,2.08,38.4,MEDIUM,1000000
+36,JBR,Nord Sciences Inc.,Information Technology,Software,Nord Sciences builds AI-powered analytics and business intelligence tools,48.07,0.1,1.17,70.2,HIGH,1000000
+37,ISOE,Vibe Works Inc.,Information Technology,Semiconductors,Vibe Works supplies semiconductor fabrication equipment,199.23,77.63,1.04,58.6,HIGH,1000000
+38,HFU,Titan Select Inc.,Information Technology,Hardware & Equipment,Titan Select develops cybersecurity software and threat detection systems,0.5,0.1,1.26,55.5,MEDIUM,1000000
+39,RHR,Trust Hub Inc.,Information Technology,IT Services,Trust Hub provides ERP and supply chain management software,96.37,62.91,2.02,62.6,MEDIUM,1000000
+40,AGM,Echo Networks Inc.,Information Technology,Cloud Infrastructure,Echo Networks designs mobile processors and system-on-chip solutions,185.63,92.54,1.04,51.0,HIGH,1000000
+41,DRX,First Stream Inc.,Information Technology,Software,First Stream develops enterprise SaaS platforms for workflow automation,313.24,4.23,1.23,43.1,HIGH,1000000
+42,XDD,Rapid Services Inc.,Information Technology,Semiconductors,Rapid Services designs high-performance GPU and CPU semiconductor chips,0.5,96.5,1.02,33.5,HIGH,1000000
+43,VOXT,Red Net Inc.,Information Technology,Hardware & Equipment,Red Net manufactures networking hardware and switching equipment,0.5,0.1,1.39,51.5,HIGH,1000000
+44,HCH,Metro Hub Inc.,Information Technology,IT Services,Metro Hub provides managed cloud and IT outsourcing services,173.6,47.7,1.24,58.3,MEDIUM,1000000
+45,BKO,Pivot Care Inc.,Information Technology,Cloud Infrastructure,Pivot Care operates hyperscale data centre infrastructure,298.96,0.1,1.48,56.1,MEDIUM,1000000
+46,MYHK,Pivot Point Inc.,Information Technology,Software,Pivot Point builds AI-powered analytics and business intelligence tools,0.5,0.1,1.39,15.4,HIGH,1000000
+47,MKRU,Wise Edge Inc.,Information Technology,Semiconductors,Wise Edge supplies semiconductor fabrication equipment,325.39,12.53,1.76,5.0,LOW,1000000
+48,CLW,Insight Care Inc.,Information Technology,Hardware & Equipment,Insight Care develops cybersecurity software and threat detection systems,0.5,32.74,1.38,54.0,MEDIUM,1000000
+49,TVGC,Beacon Source Inc.,Information Technology,IT Services,Beacon Source provides ERP and supply chain management software,0.5,78.64,0.15,19.0,MEDIUM,1000000
+50,TYF,Beacon Sciences Inc.,Information Technology,Cloud Infrastructure,Beacon Sciences designs mobile processors and system-on-chip solutions,0.5,0.1,1.49,45.6,HIGH,1000000
+51,TEPT,Forge Stream Inc.,Information Technology,Software,Forge Stream develops enterprise SaaS platforms for workflow automation,115.5,27.16,1.73,5.0,HIGH,1000000
+52,KSBR,Ultra Flow Inc.,Information Technology,Semiconductors,Ultra Flow designs high-performance GPU and CPU semiconductor chips,239.63,0.1,1.81,56.5,HIGH,1000000
+53,JLJ,Royal Select Inc.,Information Technology,Hardware & Equipment,Royal Select manufactures networking hardware and switching equipment,121.47,0.1,1.08,67.4,LOW,1000000
+54,SLTZ,Metro Sciences Inc.,Information Technology,IT Services,Metro Sciences provides managed cloud and IT outsourcing services,0.5,25.53,1.53,17.1,MEDIUM,1000000
+55,IGYH,Quantum Flow Inc.,Information Technology,Cloud Infrastructure,Quantum Flow operates hyperscale data centre infrastructure,0.5,0.1,1.4,14.6,HIGH,1000000
+56,EFUI,Swift Signal Inc.,Information Technology,Software,Swift Signal builds AI-powered analytics and business intelligence tools,0.5,16.6,1.68,22.3,HIGH,1000000
+57,MTRQ,Rise Net Inc.,Information Technology,Semiconductors,Rise Net supplies semiconductor fabrication equipment,134.47,95.49,1.44,30.3,HIGH,1000000
+58,MNLT,Nord IQ Inc.,Information Technology,Hardware & Equipment,Nord IQ develops cybersecurity software and threat detection systems,79.11,45.35,1.33,24.3,HIGH,1000000
+59,TYR,Ion Equities Inc.,Information Technology,IT Services,Ion Equities provides ERP and supply chain management software,0.5,0.1,1.38,23.6,MEDIUM,1000000
+60,VHJ,Modern Analytics Inc.,Information Technology,Cloud Infrastructure,Modern Analytics designs mobile processors and system-on-chip solutions,144.25,24.72,1.36,29.0,HIGH,1000000
+61,QTC,Atlas Pro Inc.,Information Technology,Software,Atlas Pro develops enterprise SaaS platforms for workflow automation,0.5,129.24,1.33,58.1,HIGH,1000000
+62,CBMP,Vital Care Inc.,Information Technology,Semiconductors,Vital Care designs high-performance GPU and CPU semiconductor chips,160.12,13.37,1.72,64.8,HIGH,1000000
+63,PUFN,Quantum Vision Inc.,Information Technology,Hardware & Equipment,Quantum Vision manufactures networking hardware and switching equipment,250.4,17.33,0.84,50.6,MEDIUM,1000000
+64,YFF,Vertex Cloud Inc.,Information Technology,IT Services,Vertex Cloud provides managed cloud and IT outsourcing services,93.04,21.66,1.5,47.3,HIGH,1000000
+65,HGSS,Quest Cast Inc.,Information Technology,Cloud Infrastructure,Quest Cast operates hyperscale data centre infrastructure,145.96,0.1,1.14,5.0,MEDIUM,1000000
+66,LOQ,Metro Technologies Inc.,Information Technology,Software,Metro Technologies builds AI-powered analytics and business intelligence tools,151.17,0.1,1.47,42.9,MEDIUM,1000000
+67,LMHK,Metro Partners Inc.,Information Technology,Semiconductors,Metro Partners supplies semiconductor fabrication equipment,0.5,0.1,1.09,33.2,MEDIUM,1000000
+68,AFRW,Summit Works Inc.,Information Technology,Hardware & Equipment,Summit Works develops cybersecurity software and threat detection systems,193.7,0.1,1.91,42.0,MEDIUM,1000000
+69,MQX,Insight Reach Inc.,Information Technology,IT Services,Insight Reach provides ERP and supply chain management software,301.12,9.11,0.89,50.9,HIGH,1000000
+70,RWIS,Mid Services Inc.,Information Technology,Cloud Infrastructure,Mid Services designs mobile processors and system-on-chip solutions,0.5,2.95,1.92,26.9,HIGH,1000000
+71,DUWV,Apex Services Inc.,Information Technology,Software,Apex Services develops enterprise SaaS platforms for workflow automation,307.89,40.19,1.63,23.3,MEDIUM,1000000
+72,QTFO,Mid Net Inc.,Information Technology,Semiconductors,Mid Net designs high-performance GPU and CPU semiconductor chips,357.41,32.72,1.65,23.9,MEDIUM,1000000
+73,IAK,Laser Therapeutics Inc.,Information Technology,Hardware & Equipment,Laser Therapeutics manufactures networking hardware and switching equipment,359.52,83.56,1.69,27.6,HIGH,1000000
+74,NHVZ,Lumen Networks Inc.,Information Technology,IT Services,Lumen Networks provides managed cloud and IT outsourcing services,290.15,0.1,1.12,32.4,MEDIUM,1000000
+75,HUK,Royal Global Inc.,Information Technology,Cloud Infrastructure,Royal Global operates hyperscale data centre infrastructure,0.5,83.42,1.5,24.7,LOW,1000000
+76,WLMI,Solid Link Inc.,Health Care,Pharmaceuticals,Solid Link develops and commercialises oncology therapeutics,86.51,47.82,0.59,26.9,MEDIUM,1000000
+77,WKI,Red Smart Inc.,Health Care,Biotechnology,Red Smart manufactures surgical robotics and minimally invasive devices,181.48,8.78,1.01,17.9,LOW,1000000
+78,MAN,Summit Hub Inc.,Health Care,Medical Devices,Summit Hub operates a national network of diagnostic imaging centres,0.5,23.19,1.15,6.2,MEDIUM,1000000
+79,KRE,Red Systems Inc.,Health Care,Health Services,Red Systems produces generic and branded pharmaceutical formulations,0.5,0.1,1.02,21.9,LOW,1000000
+80,YQXM,Solid Capital Inc.,Health Care,Diagnostics & Tools,Solid Capital provides clinical research and drug development services,13.62,0.1,0.66,18.1,MEDIUM,1000000
+81,LCQ,Evolve Net Inc.,Health Care,Pharmaceuticals,Evolve Net develops mRNA-based vaccine platforms,109.68,16.0,0.91,32.8,HIGH,1000000
+82,JDNO,Insight Edge Inc.,Health Care,Biotechnology,Insight Edge manufactures continuous glucose monitoring devices,0.5,37.5,0.96,38.7,MEDIUM,1000000
+83,GQL,Vibe Analytics Inc.,Health Care,Medical Devices,Vibe Analytics provides pharmacy benefit management services,16.43,42.57,1.03,16.0,HIGH,1000000
+84,ZHZR,Quest Tower Inc.,Health Care,Health Services,Quest Tower develops gene therapy treatments for rare diseases,62.97,2.54,0.49,67.6,MEDIUM,1000000
+85,OZHZ,Vertex Logic Inc.,Health Care,Diagnostics & Tools,Vertex Logic supplies laboratory diagnostics equipment and reagents,0.5,0.1,0.75,39.3,HIGH,1000000
+86,VXUF,Omni Finance Inc.,Health Care,Pharmaceuticals,Omni Finance develops and commercialises oncology therapeutics,0.5,0.1,0.57,11.4,LOW,1000000
+87,QXQ,Mono Systems Inc.,Health Care,Biotechnology,Mono Systems manufactures surgical robotics and minimally invasive devices,36.15,1.2,0.49,29.7,MEDIUM,1000000
+88,EDOZ,Silver Partners Inc.,Health Care,Medical Devices,Silver Partners operates a national network of diagnostic imaging centres,33.46,58.61,1.2,12.3,MEDIUM,1000000
+89,TICZ,Hawk Sphere Inc.,Health Care,Health Services,Hawk Sphere produces generic and branded pharmaceutical formulations,3.92,0.1,1.28,19.0,LOW,1000000
+90,CKGD,Optimal Shield Inc.,Health Care,Diagnostics & Tools,Optimal Shield provides clinical research and drug development services,0.5,36.25,0.8,14.6,MEDIUM,1000000
+91,MQY,Next Vision Inc.,Health Care,Pharmaceuticals,Next Vision develops mRNA-based vaccine platforms,0.5,0.1,0.52,12.9,LOW,1000000
+92,DBAZ,Forge Corp Inc.,Health Care,Biotechnology,Forge Corp manufactures continuous glucose monitoring devices,0.5,27.5,0.83,38.8,LOW,1000000
+93,PSXR,Rise Sciences Inc.,Health Care,Medical Devices,Rise Sciences provides pharmacy benefit management services,115.35,16.91,0.28,40.1,MEDIUM,1000000
+94,WCR,Solid Ventures Inc.,Health Care,Health Services,Solid Ventures develops gene therapy treatments for rare diseases,0.5,21.69,1.03,22.4,HIGH,1000000
+95,CFQZ,Crown Systems Inc.,Health Care,Diagnostics & Tools,Crown Systems supplies laboratory diagnostics equipment and reagents,52.48,0.1,0.42,55.1,LOW,1000000
+96,PVG,Hawk Systems Inc.,Health Care,Pharmaceuticals,Hawk Systems develops and commercialises oncology therapeutics,68.16,1.14,0.82,23.5,HIGH,1000000
+97,UCWD,Omni Systems Inc.,Health Care,Biotechnology,Omni Systems manufactures surgical robotics and minimally invasive devices,102.52,13.94,0.88,8.5,HIGH,1000000
+98,NTMU,Safe Reach Inc.,Health Care,Medical Devices,Safe Reach operates a national network of diagnostic imaging centres,62.43,9.5,1.03,33.0,LOW,1000000
+99,LZBM,Pinnacle Media Inc.,Health Care,Health Services,Pinnacle Media produces generic and branded pharmaceutical formulations,66.36,6.75,0.69,11.2,HIGH,1000000
+100,BHQ,South Smart Inc.,Health Care,Diagnostics & Tools,South Smart provides clinical research and drug development services,0.5,6.75,0.43,58.5,MEDIUM,1000000
+101,UCR,South Solutions Inc.,Health Care,Pharmaceuticals,South Solutions develops mRNA-based vaccine platforms,103.07,0.1,0.98,14.5,LOW,1000000
+102,KCLR,Optimal World Inc.,Health Care,Biotechnology,Optimal World manufactures continuous glucose monitoring devices,177.81,31.33,1.13,46.2,HIGH,1000000
+103,TJD,Delta Reach Inc.,Health Care,Medical Devices,Delta Reach provides pharmacy benefit management services,0.5,0.1,1.11,19.9,LOW,1000000
+104,WSZP,Omni Corp Inc.,Health Care,Health Services,Omni Corp develops gene therapy treatments for rare diseases,8.47,0.1,0.65,20.1,HIGH,1000000
+105,CHFL,Spark Stream Inc.,Health Care,Diagnostics & Tools,Spark Stream supplies laboratory diagnostics equipment and reagents,28.48,7.49,0.94,9.0,LOW,1000000
+106,AHTX,Nova Analytics Inc.,Health Care,Pharmaceuticals,Nova Analytics develops and commercialises oncology therapeutics,23.29,4.07,0.86,30.1,LOW,1000000
+107,CNJ,Quest Hub Inc.,Health Care,Biotechnology,Quest Hub manufactures surgical robotics and minimally invasive devices,0.5,65.17,0.92,32.7,MEDIUM,1000000
+108,ETB,Edge Global Inc.,Health Care,Medical Devices,Edge Global operates a national network of diagnostic imaging centres,0.5,0.1,0.55,28.4,MEDIUM,1000000
+109,ICR,Summit Optima Inc.,Health Care,Health Services,Summit Optima produces generic and branded pharmaceutical formulations,82.52,82.91,0.59,22.3,HIGH,1000000
+110,HFD,Macro Group Inc.,Health Care,Diagnostics & Tools,Macro Group provides clinical research and drug development services,39.07,0.1,0.79,25.3,MEDIUM,1000000
+111,NVU,Echo Logic Inc.,Health Care,Pharmaceuticals,Echo Logic develops mRNA-based vaccine platforms,219.08,18.62,0.85,21.3,LOW,1000000
+112,OSKC,Beacon World Inc.,Health Care,Biotechnology,Beacon World manufactures continuous glucose monitoring devices,0.5,0.1,0.6,43.2,LOW,1000000
+113,LCL,Pinnacle Path Inc.,Health Care,Medical Devices,Pinnacle Path provides pharmacy benefit management services,38.51,0.1,1.25,35.5,LOW,1000000
+114,NCN,Nova IQ Inc.,Health Care,Health Services,Nova IQ develops gene therapy treatments for rare diseases,63.34,0.1,0.73,5.0,HIGH,1000000
+115,EDT,Echo Energy Inc.,Health Care,Diagnostics & Tools,Echo Energy supplies laboratory diagnostics equipment and reagents,0.5,19.23,1.14,18.9,MEDIUM,1000000
+116,WQDB,Pulse Secure Inc.,Health Care,Pharmaceuticals,Pulse Secure develops and commercialises oncology therapeutics,129.32,22.28,0.73,33.1,MEDIUM,1000000
+117,AJHQ,Ember Sciences Inc.,Health Care,Biotechnology,Ember Sciences manufactures surgical robotics and minimally invasive devices,0.5,0.1,0.6,17.4,LOW,1000000
+118,LVQ,Next Resources Inc.,Health Care,Medical Devices,Next Resources operates a national network of diagnostic imaging centres,74.61,16.43,0.66,25.0,LOW,1000000
+119,ZCQB,Wide Net Inc.,Health Care,Health Services,Wide Net produces generic and branded pharmaceutical formulations,0.5,0.1,1.1,23.2,LOW,1000000
+120,KIPU,United Hub Inc.,Health Care,Diagnostics & Tools,United Hub provides clinical research and drug development services,11.55,0.1,0.9,26.2,LOW,1000000
+121,IPD,Nova Health Inc.,Health Care,Pharmaceuticals,Nova Health develops mRNA-based vaccine platforms,0.5,33.11,1.18,20.3,LOW,1000000
+122,OQID,White Therapeutics Inc.,Health Care,Biotechnology,White Therapeutics manufactures continuous glucose monitoring devices,70.21,6.21,1.61,10.6,LOW,1000000
+123,AIYI,Rise Enterprises Inc.,Health Care,Medical Devices,Rise Enterprises provides pharmacy benefit management services,176.54,34.48,0.82,30.5,HIGH,1000000
+124,RWQ,Swift Link Inc.,Health Care,Health Services,Swift Link develops gene therapy treatments for rare diseases,0.64,0.1,0.89,30.2,LOW,1000000
+125,BJSZ,True Group Inc.,Health Care,Diagnostics & Tools,True Group supplies laboratory diagnostics equipment and reagents,45.94,30.39,0.81,5.0,LOW,1000000
+126,XFRO,Pulse Networks Inc.,Health Care,Pharmaceuticals,Pulse Networks develops and commercialises oncology therapeutics,0.5,11.52,0.85,5.0,HIGH,1000000
+127,UDG,United One Inc.,Health Care,Biotechnology,United One manufactures surgical robotics and minimally invasive devices,163.67,41.05,1.02,13.1,LOW,1000000
+128,CELN,Pro Cloud Inc.,Health Care,Medical Devices,Pro Cloud operates a national network of diagnostic imaging centres,0.5,19.01,0.97,21.2,HIGH,1000000
+129,KJK,Edge Labs Inc.,Health Care,Health Services,Edge Labs produces generic and branded pharmaceutical formulations,142.93,35.09,0.83,34.4,MEDIUM,1000000
+130,DHV,White Therapeutics Inc.,Health Care,Diagnostics & Tools,White Therapeutics provides clinical research and drug development services,32.22,12.81,1.05,38.4,HIGH,1000000
+131,FDYP,Prime Crest Inc.,Health Care,Pharmaceuticals,Prime Crest develops mRNA-based vaccine platforms,82.57,24.79,0.83,15.3,MEDIUM,1000000
+132,BVMN,Ultra Partners Inc.,Health Care,Biotechnology,Ultra Partners manufactures continuous glucose monitoring devices,38.85,13.35,0.45,15.3,MEDIUM,1000000
+133,ERNJ,Silver Point Inc.,Health Care,Medical Devices,Silver Point provides pharmacy benefit management services,0.5,3.7,0.1,22.4,MEDIUM,1000000
+134,ZGAU,Nova Flow Inc.,Health Care,Health Services,Nova Flow develops gene therapy treatments for rare diseases,57.56,0.1,0.76,7.2,MEDIUM,1000000
+135,JIQ,Vital Networks Inc.,Health Care,Diagnostics & Tools,Vital Networks supplies laboratory diagnostics equipment and reagents,57.77,24.26,1.08,22.4,LOW,1000000
+136,AFUX,New Wave Inc.,Health Care,Pharmaceuticals,New Wave develops and commercialises oncology therapeutics,76.19,0.1,0.71,35.2,HIGH,1000000
+137,HWB,Vector Hub Inc.,Health Care,Biotechnology,Vector Hub manufactures surgical robotics and minimally invasive devices,0.5,21.75,0.73,45.3,MEDIUM,1000000
+138,IERJ,Scale Global Inc.,Health Care,Medical Devices,Scale Global operates a national network of diagnostic imaging centres,135.57,28.16,0.93,5.7,LOW,1000000
+139,ICRH,Titan Smart Inc.,Health Care,Health Services,Titan Smart produces generic and branded pharmaceutical formulations,25.98,17.91,0.46,32.2,LOW,1000000
+140,PLQU,Delta Cast Inc.,Health Care,Diagnostics & Tools,Delta Cast provides clinical research and drug development services,0.5,8.58,0.68,13.2,HIGH,1000000
+141,DPU,Bright Data Inc.,Financials,Banks,Bright Data operates a diversified retail and commercial banking network,0.5,61.58,1.37,15.8,LOW,1000000
+142,RYJ,Echo Pro Inc.,Financials,Insurance,Echo Pro provides property and casualty insurance products,21.82,62.15,1.17,15.9,LOW,1000000
+143,TMK,Spark Crest Inc.,Financials,Asset Management,Spark Crest manages institutional and retail investment funds,0.5,80.51,1.04,16.1,MEDIUM,1000000
+144,FDBE,Wind Net Inc.,Financials,Diversified Financials,Wind Net processes electronic payments and card transactions,405.05,0.1,1.41,12.9,LOW,1000000
+145,OHH,Horizon Smart Inc.,Financials,Payment Processing,Horizon Smart provides investment banking and capital markets services,112.18,67.08,0.97,7.0,MEDIUM,1000000
+146,UGM,Open Power Inc.,Financials,Banks,Open Power operates a consumer credit and personal loan platform,122.91,22.19,0.85,11.0,LOW,1000000
+147,IZS,Silver Matrix Inc.,Financials,Insurance,Silver Matrix provides mortgage origination and servicing,347.61,84.88,1.09,5.6,LOW,1000000
+148,MNDV,South Secure Inc.,Financials,Asset Management,South Secure manages private equity and alternative investments,157.75,67.85,0.76,9.4,LOW,1000000
+149,NHE,Wide Finance Inc.,Financials,Diversified Financials,Wide Finance provides financial data and analytics to institutions,243.32,0.1,0.78,20.8,MEDIUM,1000000
+150,DHNN,Hyper Reach Inc.,Financials,Payment Processing,Hyper Reach operates a digital-first neobank and payments platform,0.5,0.1,1.16,12.2,LOW,1000000
+151,VAB,United Stream Inc.,Financials,Banks,United Stream operates a diversified retail and commercial banking network,73.25,0.1,0.79,10.3,LOW,1000000
+152,XOQH,Lumen Tech Inc.,Financials,Insurance,Lumen Tech provides property and casualty insurance products,0.5,46.98,1.12,9.2,MEDIUM,1000000
+153,MFPI,Wind Holdings Inc.,Financials,Asset Management,Wind Holdings manages institutional and retail investment funds,122.77,20.92,1.01,5.1,LOW,1000000
+154,IMG,Lumen Dynamics Inc.,Financials,Diversified Financials,Lumen Dynamics processes electronic payments and card transactions,0.5,70.99,1.19,14.9,MEDIUM,1000000
+155,VYS,Ion Sphere Inc.,Financials,Payment Processing,Ion Sphere provides investment banking and capital markets services,0.5,46.27,1.41,24.2,LOW,1000000
+156,YNZ,Keystone Reach Inc.,Financials,Banks,Keystone Reach operates a consumer credit and personal loan platform,0.5,28.32,1.01,14.0,LOW,1000000
+157,HACD,Main Solutions Inc.,Financials,Insurance,Main Solutions provides mortgage origination and servicing,97.33,29.54,0.91,16.0,LOW,1000000
+158,OBNT,Micro Technologies Inc.,Financials,Asset Management,Micro Technologies manages private equity and alternative investments,299.37,117.27,1.35,12.6,LOW,1000000
+159,OJDP,Pinnacle Partners Inc.,Financials,Diversified Financials,Pinnacle Partners provides financial data and analytics to institutions,10.87,0.1,1.1,13.3,LOW,1000000
+160,PNI,True Holdings Inc.,Financials,Payment Processing,True Holdings operates a digital-first neobank and payments platform,53.21,0.1,1.37,23.4,LOW,1000000
+161,SHVJ,Vision Crest Inc.,Financials,Banks,Vision Crest operates a diversified retail and commercial banking network,115.86,0.1,1.31,12.3,LOW,1000000
+162,PGR,Sterling Pro Inc.,Financials,Insurance,Sterling Pro provides property and casualty insurance products,0.5,32.47,1.06,14.3,LOW,1000000
+163,DRAY,Forge Enterprises Inc.,Financials,Asset Management,Forge Enterprises manages institutional and retail investment funds,166.68,87.35,1.22,13.4,LOW,1000000
+164,WTBD,Jade Power Inc.,Financials,Diversified Financials,Jade Power processes electronic payments and card transactions,0.5,18.08,0.92,18.3,MEDIUM,1000000
+165,ORWR,West Force Inc.,Financials,Payment Processing,West Force provides investment banking and capital markets services,63.35,88.88,0.95,11.3,MEDIUM,1000000
+166,USRM,Ridge IQ Inc.,Financials,Banks,Ridge IQ operates a consumer credit and personal loan platform,42.49,0.1,0.62,9.5,LOW,1000000
+167,XKIU,Hawk Group Inc.,Financials,Insurance,Hawk Group provides mortgage origination and servicing,299.53,79.08,1.53,15.6,LOW,1000000
+168,FVHO,Metro Data Inc.,Financials,Asset Management,Metro Data manages private equity and alternative investments,62.61,41.1,1.3,17.2,LOW,1000000
+169,QBK,Wind One Inc.,Financials,Diversified Financials,Wind One provides financial data and analytics to institutions,211.64,27.06,1.33,17.1,LOW,1000000
+170,QWMQ,Mid Holdings Inc.,Financials,Payment Processing,Mid Holdings operates a digital-first neobank and payments platform,80.47,0.1,1.03,14.4,MEDIUM,1000000
+171,XEW,Ideal Wave Inc.,Financials,Banks,Ideal Wave operates a diversified retail and commercial banking network,0.5,60.26,1.65,6.4,LOW,1000000
+172,WAOC,Nord Group Inc.,Financials,Insurance,Nord Group provides property and casualty insurance products,0.5,9.03,0.78,14.6,MEDIUM,1000000
+173,HVIT,United Force Inc.,Financials,Asset Management,United Force manages institutional and retail investment funds,7.78,60.7,1.04,12.3,LOW,1000000
+174,EWX,Prime Partners Inc.,Financials,Diversified Financials,Prime Partners processes electronic payments and card transactions,340.26,104.77,0.95,16.6,LOW,1000000
+175,AJL,Metro World Inc.,Financials,Payment Processing,Metro World provides investment banking and capital markets services,0.5,7.79,0.92,17.6,LOW,1000000
+176,BDH,Pinnacle Shield Inc.,Financials,Banks,Pinnacle Shield operates a consumer credit and personal loan platform,30.2,0.1,0.63,12.9,MEDIUM,1000000
+177,JFYM,Quest Source Inc.,Financials,Insurance,Quest Source provides mortgage origination and servicing,0.5,0.1,1.24,12.7,LOW,1000000
+178,TRP,Edge Path Inc.,Financials,Asset Management,Edge Path manages private equity and alternative investments,196.4,55.37,0.76,15.0,MEDIUM,1000000
+179,ODI,Scale Net Inc.,Financials,Diversified Financials,Scale Net provides financial data and analytics to institutions,14.59,14.1,1.15,14.8,LOW,1000000
+180,LNL,Delta Power Inc.,Financials,Payment Processing,Delta Power operates a digital-first neobank and payments platform,39.87,0.1,0.7,14.7,LOW,1000000
+181,PBI,Eagle Point Inc.,Financials,Banks,Eagle Point operates a diversified retail and commercial banking network,313.73,73.96,1.52,12.7,HIGH,1000000
+182,EDQS,Pivot Labs Inc.,Financials,Insurance,Pivot Labs provides property and casualty insurance products,238.49,0.1,1.25,12.8,LOW,1000000
+183,QJE,Smart Logic Inc.,Financials,Asset Management,Smart Logic manages institutional and retail investment funds,61.71,29.11,0.73,11.8,HIGH,1000000
+184,MSLJ,Liberty Flow Inc.,Financials,Diversified Financials,Liberty Flow processes electronic payments and card transactions,152.29,119.48,0.94,13.6,LOW,1000000
+185,VKT,Beacon Flow Inc.,Financials,Payment Processing,Beacon Flow provides investment banking and capital markets services,218.37,39.13,1.08,14.8,LOW,1000000
+186,GBL,Solid Equities Inc.,Financials,Banks,Solid Equities operates a consumer credit and personal loan platform,302.44,147.32,1.06,6.1,MEDIUM,1000000
+187,PUVG,Hawk Services Inc.,Financials,Insurance,Hawk Services provides mortgage origination and servicing,35.91,87.98,0.85,12.4,LOW,1000000
+188,QLM,Nova Works Inc.,Financials,Asset Management,Nova Works manages private equity and alternative investments,0.5,13.18,0.93,9.9,LOW,1000000
+189,JTMW,Modern Tower Inc.,Financials,Diversified Financials,Modern Tower provides financial data and analytics to institutions,192.66,0.1,0.95,6.0,LOW,1000000
+190,KGI,Edge Wave Inc.,Financials,Payment Processing,Edge Wave operates a digital-first neobank and payments platform,0.5,4.12,0.87,14.2,MEDIUM,1000000
+191,RPWE,Summit Solutions Inc.,Financials,Banks,Summit Solutions operates a diversified retail and commercial banking network,126.81,130.37,0.98,10.5,LOW,1000000
+192,FET,Zero Sphere Inc.,Financials,Insurance,Zero Sphere provides property and casualty insurance products,0.5,4.37,0.9,13.4,LOW,1000000
+193,UJNJ,Main Labs Inc.,Financials,Asset Management,Main Labs manages institutional and retail investment funds,335.64,106.92,0.82,12.6,LOW,1000000
+194,XJKO,Laser Source Inc.,Financials,Diversified Financials,Laser Source processes electronic payments and card transactions,204.8,0.1,1.14,15.5,LOW,1000000
+195,FFO,Lumen Optima Inc.,Financials,Payment Processing,Lumen Optima provides investment banking and capital markets services,0.5,97.36,0.59,10.0,LOW,1000000
+196,LTJD,Solid Optima Inc.,Financials,Banks,Solid Optima operates a consumer credit and personal loan platform,360.74,17.37,1.22,20.7,LOW,1000000
+197,YRT,Pioneer Data Inc.,Financials,Insurance,Pioneer Data provides mortgage origination and servicing,55.68,18.47,1.13,10.6,LOW,1000000
+198,BQYX,Vertex Optima Inc.,Financials,Asset Management,Vertex Optima manages private equity and alternative investments,41.29,29.86,1.3,13.5,LOW,1000000
+199,AVRU,Ideal Corp Inc.,Financials,Diversified Financials,Ideal Corp provides financial data and analytics to institutions,69.46,94.42,1.26,10.6,MEDIUM,1000000
+200,GKJK,Star Flow Inc.,Financials,Payment Processing,Star Flow operates a digital-first neobank and payments platform,0.5,0.1,1.19,12.8,LOW,1000000
+201,CJO,Delta Secure Inc.,Financials,Banks,Delta Secure operates a diversified retail and commercial banking network,0.5,25.05,1.17,13.1,LOW,1000000
+202,XXF,West Trust Inc.,Financials,Insurance,West Trust provides property and casualty insurance products,221.95,0.1,0.9,11.7,MEDIUM,1000000
+203,EWA,Jade Reach Inc.,Financials,Asset Management,Jade Reach manages institutional and retail investment funds,178.89,0.1,1.28,18.8,MEDIUM,1000000
+204,OWR,Solid Hub Inc.,Financials,Diversified Financials,Solid Hub processes electronic payments and card transactions,106.19,0.1,0.81,17.4,MEDIUM,1000000
+205,BLVI,True World Inc.,Financials,Payment Processing,True World provides investment banking and capital markets services,0.5,87.89,0.62,7.0,LOW,1000000
+206,MJYL,Vital Reach Inc.,Financials,Banks,Vital Reach operates a consumer credit and personal loan platform,0.5,0.1,1.0,11.6,LOW,1000000
+207,GJU,High Source Inc.,Financials,Insurance,High Source provides mortgage origination and servicing,301.01,90.08,0.9,15.4,LOW,1000000
+208,CCLO,Safe Matrix Inc.,Financials,Asset Management,Safe Matrix manages private equity and alternative investments,0.5,2.48,1.12,14.0,LOW,1000000
+209,AKUS,Spark Ventures Inc.,Financials,Diversified Financials,Spark Ventures provides financial data and analytics to institutions,0.5,14.95,1.2,12.9,MEDIUM,1000000
+210,HMBL,Pivot Health Inc.,Financials,Payment Processing,Pivot Health operates a digital-first neobank and payments platform,59.04,62.62,0.97,13.2,LOW,1000000
+211,LDA,Peak Hub Inc.,Consumer Discretionary,Retail,Peak Hub operates a global e-commerce marketplace and fulfilment network,104.81,0.1,1.41,16.5,HIGH,1000000
+212,IZZH,West Secure Inc.,Consumer Discretionary,Automotive,West Secure designs and manufactures electric passenger vehicles,39.62,78.21,0.86,29.0,MEDIUM,1000000
+213,JYFZ,Insight Shield Inc.,Consumer Discretionary,Hospitality & Travel,Insight Shield operates a chain of luxury department stores,0.85,0.1,1.26,24.7,HIGH,1000000
+214,VBWU,Vision Optima Inc.,Consumer Discretionary,Media & Entertainment,Vision Optima provides on-demand video streaming entertainment,34.03,54.71,1.41,37.1,HIGH,1000000
+215,BZMK,Royal Wave Inc.,Consumer Discretionary,E-Commerce,Royal Wave franchises and operates quick-service restaurant brands,0.5,0.1,1.65,17.7,HIGH,1000000
+216,CGR,Hyper Select Inc.,Consumer Discretionary,Retail,Hyper Select manufactures premium athletic footwear and apparel,0.5,0.1,0.96,16.3,LOW,1000000
+217,ZLAG,Safe Source Inc.,Consumer Discretionary,Automotive,Safe Source operates hotel and resort properties worldwide,0.5,0.1,0.86,25.8,HIGH,1000000
+218,IAC,Pivot Vision Inc.,Consumer Discretionary,Hospitality & Travel,Pivot Vision provides online travel booking and accommodation services,86.48,7.92,1.39,26.3,HIGH,1000000
+219,UNJC,Wise Signal Inc.,Consumer Discretionary,Media & Entertainment,Wise Signal designs and retails consumer furniture and home goods,186.35,46.19,1.14,29.5,HIGH,1000000
+220,QREZ,Lumen Path Inc.,Consumer Discretionary,E-Commerce,Lumen Path operates a subscription-based fitness equipment platform,0.5,0.1,1.33,35.4,HIGH,1000000
+221,QERK,Zenith Sciences Inc.,Consumer Discretionary,Retail,Zenith Sciences operates a global e-commerce marketplace and fulfilment network,26.47,22.43,1.49,17.7,HIGH,1000000
+222,TVBC,Smart Energy Inc.,Consumer Discretionary,Automotive,Smart Energy designs and manufactures electric passenger vehicles,147.45,78.7,1.12,34.9,HIGH,1000000
+223,PPPJ,Quest Sciences Inc.,Consumer Discretionary,Hospitality & Travel,Quest Sciences operates a chain of luxury department stores,105.05,0.1,1.46,46.5,MEDIUM,1000000
+224,IGD,Optimal Signal Inc.,Consumer Discretionary,Media & Entertainment,Optimal Signal provides on-demand video streaming entertainment,0.5,0.1,1.44,38.8,HIGH,1000000
+225,QSQZ,Spark Edge Inc.,Consumer Discretionary,E-Commerce,Spark Edge franchises and operates quick-service restaurant brands,0.5,80.37,1.09,28.5,HIGH,1000000
+226,YMFJ,Spark Partners Inc.,Consumer Discretionary,Retail,Spark Partners manufactures premium athletic footwear and apparel,0.5,24.91,1.07,16.2,HIGH,1000000
+227,CAT,Milestone Capital Inc.,Consumer Discretionary,Automotive,Milestone Capital operates hotel and resort properties worldwide,89.35,77.77,1.19,45.2,MEDIUM,1000000
+228,OCCU,Open Point Inc.,Consumer Discretionary,Hospitality & Travel,Open Point provides online travel booking and accommodation services,10.65,0.1,1.29,24.3,LOW,1000000
+229,TQG,Bright Net Inc.,Consumer Discretionary,Media & Entertainment,Bright Net designs and retails consumer furniture and home goods,206.06,82.44,1.2,55.8,HIGH,1000000
+230,FTR,Wide Sciences Inc.,Consumer Discretionary,E-Commerce,Wide Sciences operates a subscription-based fitness equipment platform,78.62,51.33,1.13,21.8,HIGH,1000000
+231,ONP,Hyper Holdings Inc.,Consumer Discretionary,Retail,Hyper Holdings operates a global e-commerce marketplace and fulfilment network,0.5,0.1,1.5,26.5,MEDIUM,1000000
+232,DTK,Delta Global Inc.,Consumer Discretionary,Automotive,Delta Global designs and manufactures electric passenger vehicles,85.51,0.1,1.35,22.6,MEDIUM,1000000
+233,TRM,Steel Secure Inc.,Consumer Discretionary,Hospitality & Travel,Steel Secure operates a chain of luxury department stores,0.5,45.26,1.21,42.4,LOW,1000000
+234,KTS,Optimal Networks Inc.,Consumer Discretionary,Media & Entertainment,Optimal Networks provides on-demand video streaming entertainment,207.48,21.61,1.5,24.2,MEDIUM,1000000
+235,QSWU,Peak Equities Inc.,Consumer Discretionary,E-Commerce,Peak Equities franchises and operates quick-service restaurant brands,0.5,21.76,1.8,22.8,HIGH,1000000
+236,OMI,Vital Sphere Inc.,Consumer Discretionary,Retail,Vital Sphere manufactures premium athletic footwear and apparel,58.45,0.1,1.38,29.9,HIGH,1000000
+237,LAY,Iron Signal Inc.,Consumer Discretionary,Automotive,Iron Signal operates hotel and resort properties worldwide,0.5,135.79,1.77,12.4,LOW,1000000
+238,RGJ,Vector Edge Inc.,Consumer Discretionary,Hospitality & Travel,Vector Edge provides online travel booking and accommodation services,9.78,0.1,1.65,34.3,HIGH,1000000
+239,SAM,Golden Reach Inc.,Consumer Discretionary,Media & Entertainment,Golden Reach designs and retails consumer furniture and home goods,188.97,25.4,1.32,48.9,MEDIUM,1000000
+240,SMFC,First Corp Inc.,Consumer Discretionary,E-Commerce,First Corp operates a subscription-based fitness equipment platform,147.22,98.47,1.01,54.6,MEDIUM,1000000
+241,QRB,Star Analytics Inc.,Consumer Discretionary,Retail,Star Analytics operates a global e-commerce marketplace and fulfilment network,0.5,53.42,1.11,22.6,MEDIUM,1000000
+242,QLFX,Green Sphere Inc.,Consumer Discretionary,Automotive,Green Sphere designs and manufactures electric passenger vehicles,0.5,71.06,1.6,43.8,MEDIUM,1000000
+243,HCO,Swift Solutions Inc.,Consumer Discretionary,Hospitality & Travel,Swift Solutions operates a chain of luxury department stores,0.5,0.1,0.84,12.8,MEDIUM,1000000
+244,FPEK,United Care Inc.,Consumer Discretionary,Media & Entertainment,United Care provides on-demand video streaming entertainment,41.61,79.12,1.36,5.0,HIGH,1000000
+245,NZZ,New Data Inc.,Consumer Discretionary,E-Commerce,New Data franchises and operates quick-service restaurant brands,0.5,55.98,0.82,45.5,HIGH,1000000
+246,YUAB,Main Equities Inc.,Consumer Discretionary,Retail,Main Equities manufactures premium athletic footwear and apparel,64.05,0.1,1.35,29.2,MEDIUM,1000000
+247,LKQN,High Global Inc.,Consumer Discretionary,Automotive,High Global operates hotel and resort properties worldwide,272.9,0.1,1.36,30.8,HIGH,1000000
+248,KQVR,Eagle Health Inc.,Consumer Discretionary,Hospitality & Travel,Eagle Health provides online travel booking and accommodation services,54.68,2.97,1.1,6.5,HIGH,1000000
+249,DPBR,Vertex Source Inc.,Consumer Discretionary,Media & Entertainment,Vertex Source designs and retails consumer furniture and home goods,44.83,26.88,1.27,30.0,HIGH,1000000
+250,NUSE,Golden Source Inc.,Consumer Discretionary,E-Commerce,Golden Source operates a subscription-based fitness equipment platform,164.88,0.1,1.3,17.1,HIGH,1000000
+251,HBSO,Echo Optima Inc.,Consumer Discretionary,Retail,Echo Optima operates a global e-commerce marketplace and fulfilment network,0.5,20.19,0.98,31.7,HIGH,1000000
+252,UXRC,Zenith Partners Inc.,Consumer Discretionary,Automotive,Zenith Partners designs and manufactures electric passenger vehicles,65.59,21.42,1.84,28.4,HIGH,1000000
+253,EYA,Wind Source Inc.,Consumer Discretionary,Hospitality & Travel,Wind Source operates a chain of luxury department stores,37.43,153.49,1.13,19.7,HIGH,1000000
+254,ODR,Crown Energy Inc.,Consumer Discretionary,Media & Entertainment,Crown Energy provides on-demand video streaming entertainment,132.04,37.29,1.31,44.6,LOW,1000000
+255,UICL,Optimal Enterprises Inc.,Consumer Discretionary,E-Commerce,Optimal Enterprises franchises and operates quick-service restaurant brands,30.12,0.1,1.11,51.7,HIGH,1000000
+256,ZUTO,Lumen Dynamics Inc.,Consumer Discretionary,Retail,Lumen Dynamics manufactures premium athletic footwear and apparel,44.83,75.02,1.56,28.6,MEDIUM,1000000
+257,YAR,Zenith Solutions Inc.,Consumer Discretionary,Automotive,Zenith Solutions operates hotel and resort properties worldwide,138.76,13.37,1.18,36.9,LOW,1000000
+258,SCX,Scale Matrix Inc.,Consumer Discretionary,Hospitality & Travel,Scale Matrix provides online travel booking and accommodation services,76.59,15.98,1.16,15.1,HIGH,1000000
+259,QKP,Delta Media Inc.,Consumer Discretionary,Media & Entertainment,Delta Media designs and retails consumer furniture and home goods,0.5,133.07,1.17,21.7,LOW,1000000
+260,STIH,Echo Works Inc.,Consumer Discretionary,E-Commerce,Echo Works operates a subscription-based fitness equipment platform,0.5,2.3,1.4,51.3,HIGH,1000000
+261,IDJU,Quantum Health Inc.,Consumer Discretionary,Retail,Quantum Health operates a global e-commerce marketplace and fulfilment network,188.04,78.61,0.68,34.3,HIGH,1000000
+262,FWD,Wind Flow Inc.,Consumer Discretionary,Automotive,Wind Flow designs and manufactures electric passenger vehicles,115.31,35.31,1.55,25.2,MEDIUM,1000000
+263,AKL,Zero Power Inc.,Consumer Discretionary,Hospitality & Travel,Zero Power operates a chain of luxury department stores,53.23,0.1,1.25,43.6,HIGH,1000000
+264,DVJ,Ultra Works Inc.,Consumer Discretionary,Media & Entertainment,Ultra Works provides on-demand video streaming entertainment,24.86,129.66,1.01,13.4,HIGH,1000000
+265,FQV,Ember Ventures Inc.,Consumer Discretionary,E-Commerce,Ember Ventures franchises and operates quick-service restaurant brands,206.49,119.74,1.56,7.1,HIGH,1000000
+266,VKAR,Ideal IQ Inc.,Communication Services,Telecom Services,Ideal IQ operates a global social media and digital advertising platform,0.5,202.95,0.93,28.3,HIGH,1000000
+267,QMW,Ridge Care Inc.,Communication Services,Media,Ridge Care provides nationwide 5G wireless and broadband services,0.5,95.77,1.07,27.1,LOW,1000000
+268,QUU,Orbit Systems Inc.,Communication Services,Interactive Media & Services,Orbit Systems produces and distributes film and television content,154.06,0.1,0.85,10.9,LOW,1000000
+269,KEIF,Micro Care Inc.,Communication Services,Wireless Services,Micro Care operates a music and podcast streaming platform,0.5,122.72,0.98,11.5,MEDIUM,1000000
+270,CRG,Zenith Care Inc.,Communication Services,Telecom Services,Zenith Care provides satellite internet and direct-to-home TV services,0.5,0.1,0.94,5.0,MEDIUM,1000000
+271,EPU,White IQ Inc.,Communication Services,Media,White IQ operates a digital search engine and advertising network,0.5,0.1,0.94,20.8,LOW,1000000
+272,VVZ,Solid Health Inc.,Communication Services,Interactive Media & Services,Solid Health provides enterprise unified communications and video conferencing,481.95,77.52,0.93,24.5,HIGH,1000000
+273,AXFD,Wind Energy Inc.,Communication Services,Wireless Services,Wind Energy operates a global social media and digital advertising platform,71.83,55.07,1.24,12.6,LOW,1000000
+274,UWW,Echo Labs Inc.,Communication Services,Telecom Services,Echo Labs provides nationwide 5G wireless and broadband services,0.5,2.71,0.82,7.9,MEDIUM,1000000
+275,TLQ,Rise Select Inc.,Communication Services,Media,Rise Select produces and distributes film and television content,0.5,0.1,0.77,36.3,LOW,1000000
+276,FPEH,West Group Inc.,Communication Services,Interactive Media & Services,West Group operates a music and podcast streaming platform,793.64,0.1,1.13,33.6,MEDIUM,1000000
+277,EIV,True Finance Inc.,Communication Services,Wireless Services,True Finance provides satellite internet and direct-to-home TV services,0.5,41.72,0.84,18.4,HIGH,1000000
+278,ZEXC,Wide Services Inc.,Communication Services,Telecom Services,Wide Services operates a digital search engine and advertising network,0.5,60.67,0.63,6.0,MEDIUM,1000000
+279,JUS,Crown Link Inc.,Communication Services,Media,Crown Link provides enterprise unified communications and video conferencing,255.64,111.54,0.71,25.9,LOW,1000000
+280,OCMW,Vector Sphere Inc.,Communication Services,Interactive Media & Services,Vector Sphere operates a global social media and digital advertising platform,618.95,109.1,0.85,16.5,MEDIUM,1000000
+281,GCIX,Horizon Solutions Inc.,Communication Services,Wireless Services,Horizon Solutions provides nationwide 5G wireless and broadband services,369.87,30.01,1.33,32.8,LOW,1000000
+282,SLQP,Pro Edge Inc.,Communication Services,Telecom Services,Pro Edge produces and distributes film and television content,403.85,26.85,1.07,25.0,LOW,1000000
+283,RHCK,South Therapeutics Inc.,Communication Services,Media,South Therapeutics operates a music and podcast streaming platform,228.44,40.82,0.83,22.2,LOW,1000000
+284,FAEH,Edge One Inc.,Communication Services,Interactive Media & Services,Edge One provides satellite internet and direct-to-home TV services,0.5,95.68,1.0,14.9,LOW,1000000
+285,QKJ,Orbit Labs Inc.,Communication Services,Wireless Services,Orbit Labs operates a digital search engine and advertising network,0.5,63.12,0.92,24.8,LOW,1000000
+286,DSC,Vibe IQ Inc.,Communication Services,Telecom Services,Vibe IQ provides enterprise unified communications and video conferencing,108.74,0.1,0.97,12.3,HIGH,1000000
+287,VKNW,Red Pro Inc.,Communication Services,Media,Red Pro operates a global social media and digital advertising platform,669.63,122.21,1.07,14.3,LOW,1000000
+288,DTE,Hyper Equities Inc.,Communication Services,Interactive Media & Services,Hyper Equities provides nationwide 5G wireless and broadband services,0.5,150.47,0.94,17.2,LOW,1000000
+289,VGX,Eagle Cloud Inc.,Communication Services,Wireless Services,Eagle Cloud produces and distributes film and television content,0.5,97.1,0.75,28.5,LOW,1000000
+290,UQN,Pivot Crest Inc.,Communication Services,Telecom Services,Pivot Crest operates a music and podcast streaming platform,0.5,0.1,0.8,24.9,LOW,1000000
+291,OCH,Smart Trust Inc.,Industrials,Aerospace & Defense,Smart Trust manufactures commercial aircraft and aviation components,0.5,31.33,0.91,28.8,MEDIUM,1000000
+292,EKQ,Vital Signal Inc.,Industrials,Machinery,Vital Signal produces industrial robots and factory automation systems,91.57,0.1,0.85,26.6,HIGH,1000000
+293,XXAV,Modern Health Inc.,Industrials,Transportation & Logistics,Modern Health operates express parcel delivery and freight logistics,15.95,1.28,0.99,31.1,LOW,1000000
+294,HTU,Next Global Inc.,Industrials,Construction & Engineering,Next Global engineers and constructs large-scale infrastructure projects,79.85,26.36,1.0,11.2,LOW,1000000
+295,TTWV,Safe Systems Inc.,Industrials,Business Services,"Safe Systems provides staffing, payroll, and workforce management services",0.5,11.42,1.17,27.8,LOW,1000000
+296,EWF,Delta Flow Inc.,Industrials,Aerospace & Defense,Delta Flow manufactures gas turbines and power generation equipment,0.5,24.81,1.13,22.5,HIGH,1000000
+297,NQDA,Optimal Optima Inc.,Industrials,Machinery,Optimal Optima operates a rail freight transportation network,79.79,0.1,0.92,19.2,HIGH,1000000
+298,VGV,Ember Group Inc.,Industrials,Transportation & Logistics,Ember Group designs and builds HVAC and building systems,88.37,0.1,1.13,22.4,HIGH,1000000
+299,QRG,Pioneer Partners Inc.,Industrials,Construction & Engineering,Pioneer Partners provides defence electronics and military communication systems,25.88,8.68,1.48,23.8,LOW,1000000
+300,PAG,Mono Smart Inc.,Industrials,Business Services,Mono Smart manufactures precision measurement and testing instruments,0.5,23.19,1.4,19.6,HIGH,1000000
+301,FHNQ,Sterling Corp Inc.,Industrials,Aerospace & Defense,Sterling Corp manufactures commercial aircraft and aviation components,137.21,2.01,2.02,23.4,MEDIUM,1000000
+302,HCBZ,Union Holdings Inc.,Industrials,Machinery,Union Holdings produces industrial robots and factory automation systems,0.5,0.1,1.18,17.2,HIGH,1000000
+303,NGB,Swift Logic Inc.,Industrials,Transportation & Logistics,Swift Logic operates express parcel delivery and freight logistics,9.28,0.1,0.85,11.8,LOW,1000000
+304,XKTP,Steel Technologies Inc.,Industrials,Construction & Engineering,Steel Technologies engineers and constructs large-scale infrastructure projects,37.82,42.46,1.2,34.0,MEDIUM,1000000
+305,NVVW,Insight Group Inc.,Industrials,Business Services,"Insight Group provides staffing, payroll, and workforce management services",19.07,57.38,1.16,24.4,MEDIUM,1000000
+306,YXR,Laser IQ Inc.,Industrials,Aerospace & Defense,Laser IQ manufactures gas turbines and power generation equipment,0.5,37.01,1.13,38.0,HIGH,1000000
+307,MDBQ,Sterling Works Inc.,Industrials,Machinery,Sterling Works operates a rail freight transportation network,35.35,23.87,0.84,15.8,MEDIUM,1000000
+308,KWDZ,North Matrix Inc.,Industrials,Transportation & Logistics,North Matrix designs and builds HVAC and building systems,58.24,10.84,1.58,20.6,LOW,1000000
+309,UMQ,Ideal Holdings Inc.,Industrials,Construction & Engineering,Ideal Holdings provides defence electronics and military communication systems,10.04,53.85,1.03,21.4,HIGH,1000000
+310,MTC,True Media Inc.,Industrials,Business Services,True Media manufactures precision measurement and testing instruments,82.6,6.69,0.88,16.0,HIGH,1000000
+311,SYX,Silver Enterprises Inc.,Industrials,Aerospace & Defense,Silver Enterprises manufactures commercial aircraft and aviation components,20.58,0.1,1.07,22.1,LOW,1000000
+312,DJPE,Crest Health Inc.,Industrials,Machinery,Crest Health produces industrial robots and factory automation systems,0.5,8.13,1.31,19.2,HIGH,1000000
+313,IXJ,Ion Edge Inc.,Industrials,Transportation & Logistics,Ion Edge operates express parcel delivery and freight logistics,0.5,22.27,1.58,16.3,MEDIUM,1000000
+314,FAN,Global Labs Inc.,Industrials,Construction & Engineering,Global Labs engineers and constructs large-scale infrastructure projects,0.5,37.25,0.94,8.2,MEDIUM,1000000
+315,PBC,Beacon Care Inc.,Industrials,Business Services,"Beacon Care provides staffing, payroll, and workforce management services",0.5,33.51,0.95,14.3,MEDIUM,1000000
+316,FRA,Pivot Services Inc.,Industrials,Aerospace & Defense,Pivot Services manufactures gas turbines and power generation equipment,0.5,0.1,1.29,27.7,HIGH,1000000
+317,NQH,First Optima Inc.,Industrials,Machinery,First Optima operates a rail freight transportation network,19.05,42.32,1.1,27.1,HIGH,1000000
+318,HBMF,Ridge Hub Inc.,Industrials,Transportation & Logistics,Ridge Hub designs and builds HVAC and building systems,49.6,18.42,1.05,23.3,MEDIUM,1000000
+319,DCNS,Evolve Ventures Inc.,Industrials,Construction & Engineering,Evolve Ventures provides defence electronics and military communication systems,75.14,10.51,1.04,27.8,MEDIUM,1000000
+320,VWW,Open Tech Inc.,Industrials,Business Services,Open Tech manufactures precision measurement and testing instruments,112.42,44.48,0.93,14.4,LOW,1000000
+321,WRE,Omni Ventures Inc.,Industrials,Aerospace & Defense,Omni Ventures manufactures commercial aircraft and aviation components,44.15,4.36,0.73,26.3,MEDIUM,1000000
+322,CKL,Pacific Signal Inc.,Industrials,Machinery,Pacific Signal produces industrial robots and factory automation systems,0.5,0.1,1.32,10.4,HIGH,1000000
+323,ZVC,Summit One Inc.,Industrials,Transportation & Logistics,Summit One operates express parcel delivery and freight logistics,49.55,34.19,1.17,10.6,HIGH,1000000
+324,WWS,Golden One Inc.,Industrials,Construction & Engineering,Golden One engineers and constructs large-scale infrastructure projects,9.38,16.06,1.16,20.1,HIGH,1000000
+325,AWNT,Wise Pro Inc.,Industrials,Business Services,"Wise Pro provides staffing, payroll, and workforce management services",75.74,0.1,1.15,41.7,MEDIUM,1000000
+326,LSM,Vertex Shield Inc.,Industrials,Aerospace & Defense,Vertex Shield manufactures gas turbines and power generation equipment,83.49,0.1,0.96,18.5,MEDIUM,1000000
+327,QEW,Rock Track Inc.,Industrials,Machinery,Rock Track operates a rail freight transportation network,1.9,32.24,1.26,33.5,HIGH,1000000
+328,OJV,Edge Networks Inc.,Industrials,Transportation & Logistics,Edge Networks designs and builds HVAC and building systems,84.98,27.43,0.74,25.6,HIGH,1000000
+329,TAKA,South Analytics Inc.,Industrials,Construction & Engineering,South Analytics provides defence electronics and military communication systems,108.2,3.83,1.25,9.4,LOW,1000000
+330,RLI,Crown Technologies Inc.,Industrials,Business Services,Crown Technologies manufactures precision measurement and testing instruments,0.5,0.1,1.1,30.7,MEDIUM,1000000
+331,SCTF,North IQ Inc.,Industrials,Aerospace & Defense,North IQ manufactures commercial aircraft and aviation components,5.99,41.32,1.36,5.0,MEDIUM,1000000
+332,XMV,Zero Solutions Inc.,Industrials,Machinery,Zero Solutions produces industrial robots and factory automation systems,35.14,23.96,0.89,25.3,LOW,1000000
+333,LUS,First Sphere Inc.,Industrials,Transportation & Logistics,First Sphere operates express parcel delivery and freight logistics,66.78,0.1,0.56,31.4,MEDIUM,1000000
+334,LPNZ,Apex Path Inc.,Industrials,Construction & Engineering,Apex Path engineers and constructs large-scale infrastructure projects,0.5,25.59,1.02,11.9,LOW,1000000
+335,REV,First Link Inc.,Industrials,Business Services,"First Link provides staffing, payroll, and workforce management services",0.5,58.45,0.86,12.9,HIGH,1000000
+336,HZZ,Quantum Tech Inc.,Industrials,Aerospace & Defense,Quantum Tech manufactures gas turbines and power generation equipment,0.5,0.1,1.22,28.1,HIGH,1000000
+337,SYQF,Trust Smart Inc.,Industrials,Machinery,Trust Smart operates a rail freight transportation network,0.5,0.1,0.99,29.1,MEDIUM,1000000
+338,NSI,Forge Sphere Inc.,Industrials,Transportation & Logistics,Forge Sphere designs and builds HVAC and building systems,0.5,0.1,0.88,29.3,HIGH,1000000
+339,WKAC,Orbit Dynamics Inc.,Industrials,Construction & Engineering,Orbit Dynamics provides defence electronics and military communication systems,13.79,55.62,1.13,22.9,LOW,1000000
+340,DBUF,Solid Capital Inc.,Industrials,Business Services,Solid Capital manufactures precision measurement and testing instruments,0.5,0.1,0.88,28.8,MEDIUM,1000000
+341,TOG,White Group Inc.,Industrials,Aerospace & Defense,White Group manufactures commercial aircraft and aviation components,0.5,29.58,1.02,19.7,MEDIUM,1000000
+342,ZBTF,Pulse Therapeutics Inc.,Industrials,Machinery,Pulse Therapeutics produces industrial robots and factory automation systems,10.55,0.1,1.1,33.2,MEDIUM,1000000
+343,UZH,Ideal Shield Inc.,Industrials,Transportation & Logistics,Ideal Shield operates express parcel delivery and freight logistics,22.17,0.1,1.62,31.2,HIGH,1000000
+344,ODPG,Nord Networks Inc.,Industrials,Construction & Engineering,Nord Networks engineers and constructs large-scale infrastructure projects,55.12,30.15,1.01,17.5,HIGH,1000000
+345,MOJU,New Path Inc.,Industrials,Business Services,"New Path provides staffing, payroll, and workforce management services",89.74,24.32,1.08,27.0,HIGH,1000000
+346,CFFI,Open Group Inc.,Industrials,Aerospace & Defense,Open Group manufactures gas turbines and power generation equipment,0.5,0.1,1.13,35.1,MEDIUM,1000000
+347,CIG,United Sciences Inc.,Industrials,Machinery,United Sciences operates a rail freight transportation network,146.05,24.91,1.21,19.1,HIGH,1000000
+348,KOH,Scale Technologies Inc.,Industrials,Transportation & Logistics,Scale Technologies designs and builds HVAC and building systems,0.5,10.42,1.09,12.5,HIGH,1000000
+349,ICC,Smart Point Inc.,Industrials,Construction & Engineering,Smart Point provides defence electronics and military communication systems,0.5,0.1,1.14,22.1,LOW,1000000
+350,VFVW,Zenith Stream Inc.,Industrials,Business Services,Zenith Stream manufactures precision measurement and testing instruments,107.11,28.66,0.63,27.8,HIGH,1000000
+351,ABEG,Echo Pro Inc.,Industrials,Aerospace & Defense,Echo Pro manufactures commercial aircraft and aviation components,0.5,27.02,1.29,6.2,HIGH,1000000
+352,ARNQ,Trust Cast Inc.,Industrials,Machinery,Trust Cast produces industrial robots and factory automation systems,17.92,2.75,1.06,11.4,LOW,1000000
+353,HRP,Mid Sphere Inc.,Industrials,Transportation & Logistics,Mid Sphere operates express parcel delivery and freight logistics,31.57,6.38,1.27,18.5,HIGH,1000000
+354,DKU,Solid Group Inc.,Industrials,Construction & Engineering,Solid Group engineers and constructs large-scale infrastructure projects,0.5,0.1,1.19,20.9,MEDIUM,1000000
+355,YAWD,Crest Analytics Inc.,Industrials,Business Services,"Crest Analytics provides staffing, payroll, and workforce management services",0.81,8.9,0.83,18.5,HIGH,1000000
+356,FXWD,Insight Finance Inc.,Industrials,Aerospace & Defense,Insight Finance manufactures gas turbines and power generation equipment,92.25,36.59,0.91,17.9,MEDIUM,1000000
+357,WYZ,Rapid Select Inc.,Industrials,Machinery,Rapid Select operates a rail freight transportation network,49.87,16.67,0.85,20.0,MEDIUM,1000000
+358,YJRG,Mid Sciences Inc.,Industrials,Transportation & Logistics,Mid Sciences designs and builds HVAC and building systems,0.5,13.98,1.2,24.2,MEDIUM,1000000
+359,OJI,Prime Edge Inc.,Industrials,Construction & Engineering,Prime Edge provides defence electronics and military communication systems,42.52,52.37,1.24,22.2,HIGH,1000000
+360,DTWM,Omni Stream Inc.,Industrials,Business Services,Omni Stream manufactures precision measurement and testing instruments,61.86,42.5,0.94,31.5,MEDIUM,1000000
+361,XFT,Ultra Cast Inc.,Consumer Staples,Food & Beverages,Ultra Cast produces and distributes packaged food and snack brands,132.77,0.1,0.51,9.5,LOW,1000000
+362,TFAG,Solid One Inc.,Consumer Staples,Personal Products,Solid One manufactures personal care and grooming products,0.5,109.06,0.5,19.2,MEDIUM,1000000
+363,DNCJ,Atlas Services Inc.,Consumer Staples,Household Products,Atlas Services brews and markets global beer and beverage brands,200.84,19.64,0.58,37.4,LOW,1000000
+364,LEY,Vertex Track Inc.,Consumer Staples,Food Retail,Vertex Track operates a nationwide grocery and supermarket chain,0.5,35.85,0.79,20.0,MEDIUM,1000000
+365,GGGR,Scale Vision Inc.,Consumer Staples,Food & Beverages,Scale Vision produces cleaning and household maintenance products,229.68,0.1,0.59,16.3,HIGH,1000000
+366,CZQH,Zenith Force Inc.,Consumer Staples,Personal Products,Zenith Force distributes premium coffee and hot beverage products,0.5,70.95,0.38,18.3,MEDIUM,1000000
+367,NJX,Scale Logic Inc.,Consumer Staples,Household Products,Scale Logic manufactures infant nutrition and health food products,0.5,35.68,0.37,31.6,MEDIUM,1000000
+368,LFN,Micro Equities Inc.,Consumer Staples,Food Retail,Micro Equities produces and distributes packaged food and snack brands,0.5,0.1,0.6,24.8,MEDIUM,1000000
+369,VSMM,Jade Reach Inc.,Consumer Staples,Food & Beverages,Jade Reach manufactures personal care and grooming products,79.4,32.5,0.7,31.6,MEDIUM,1000000
+370,DNX,Hawk Care Inc.,Consumer Staples,Personal Products,Hawk Care brews and markets global beer and beverage brands,0.5,23.61,0.72,33.7,LOW,1000000
+371,WSV,Edge Equities Inc.,Consumer Staples,Household Products,Edge Equities operates a nationwide grocery and supermarket chain,91.1,2.83,0.1,27.9,LOW,1000000
+372,UVE,Vertex Partners Inc.,Consumer Staples,Food Retail,Vertex Partners produces cleaning and household maintenance products,0.5,85.09,0.53,31.6,MEDIUM,1000000
+373,JDA,Scale Track Inc.,Consumer Staples,Food & Beverages,Scale Track distributes premium coffee and hot beverage products,113.07,0.1,0.74,17.1,HIGH,1000000
+374,WNT,Ember One Inc.,Consumer Staples,Personal Products,Ember One manufactures infant nutrition and health food products,45.25,29.28,0.38,11.1,LOW,1000000
+375,NJBN,Liberty Works Inc.,Consumer Staples,Household Products,Liberty Works produces and distributes packaged food and snack brands,0.5,84.32,0.64,12.0,LOW,1000000
+376,LGT,Edge Group Inc.,Consumer Staples,Food Retail,Edge Group manufactures personal care and grooming products,49.49,36.28,0.4,17.6,LOW,1000000
+377,PDA,Vector Equities Inc.,Consumer Staples,Food & Beverages,Vector Equities brews and markets global beer and beverage brands,12.4,56.49,0.5,17.2,MEDIUM,1000000
+378,GNOP,Vital Logic Inc.,Consumer Staples,Personal Products,Vital Logic operates a nationwide grocery and supermarket chain,74.18,0.1,0.55,15.8,MEDIUM,1000000
+379,GHIS,Zenith Data Inc.,Consumer Staples,Household Products,Zenith Data produces cleaning and household maintenance products,48.51,0.1,0.68,15.0,MEDIUM,1000000
+380,CNU,South Sciences Inc.,Consumer Staples,Food Retail,South Sciences distributes premium coffee and hot beverage products,187.48,161.32,0.47,13.1,HIGH,1000000
+381,VMP,Ember Cast Inc.,Consumer Staples,Food & Beverages,Ember Cast manufactures infant nutrition and health food products,0.5,0.1,0.54,27.8,LOW,1000000
+382,PNSP,Ideal Secure Inc.,Consumer Staples,Personal Products,Ideal Secure produces and distributes packaged food and snack brands,186.5,0.1,0.53,22.0,MEDIUM,1000000
+383,APN,Liberty Sciences Inc.,Consumer Staples,Household Products,Liberty Sciences manufactures personal care and grooming products,50.16,31.44,0.57,23.4,HIGH,1000000
+384,UJKP,Scale Analytics Inc.,Consumer Staples,Food Retail,Scale Analytics brews and markets global beer and beverage brands,119.04,56.35,0.55,19.7,LOW,1000000
+385,JVFZ,Quest Wave Inc.,Consumer Staples,Food & Beverages,Quest Wave operates a nationwide grocery and supermarket chain,103.91,93.52,0.54,22.3,MEDIUM,1000000
+386,IDNG,Smart Technologies Inc.,Consumer Staples,Personal Products,Smart Technologies produces cleaning and household maintenance products,0.5,50.54,0.58,17.6,MEDIUM,1000000
+387,TYL,Quest Ventures Inc.,Consumer Staples,Household Products,Quest Ventures distributes premium coffee and hot beverage products,77.86,44.97,0.52,21.3,MEDIUM,1000000
+388,RFI,Omni Path Inc.,Consumer Staples,Food Retail,Omni Path manufactures infant nutrition and health food products,43.1,79.21,0.32,19.9,MEDIUM,1000000
+389,BYMJ,Steel Global Inc.,Consumer Staples,Food & Beverages,Steel Global produces and distributes packaged food and snack brands,108.81,13.46,0.65,31.1,LOW,1000000
+390,TWF,Iron Therapeutics Inc.,Consumer Staples,Personal Products,Iron Therapeutics manufactures personal care and grooming products,76.45,53.67,0.55,30.3,LOW,1000000
+391,PTOB,Ridge Labs Inc.,Consumer Staples,Household Products,Ridge Labs brews and markets global beer and beverage brands,262.31,18.25,0.42,17.2,LOW,1000000
+392,ETNK,Steel Data Inc.,Consumer Staples,Food Retail,Steel Data operates a nationwide grocery and supermarket chain,0.5,40.16,0.8,25.6,MEDIUM,1000000
+393,WULD,Scale Networks Inc.,Consumer Staples,Food & Beverages,Scale Networks produces cleaning and household maintenance products,5.16,0.1,0.54,22.7,HIGH,1000000
+394,PGOG,Red World Inc.,Consumer Staples,Personal Products,Red World distributes premium coffee and hot beverage products,0.5,30.32,0.44,18.3,LOW,1000000
+395,JKLO,Steel Shield Inc.,Consumer Staples,Household Products,Steel Shield manufactures infant nutrition and health food products,40.83,73.66,0.56,24.7,MEDIUM,1000000
+396,FUTM,Atlas Energy Inc.,Energy,Oil & Gas Exploration,"Atlas Energy explores, produces, and markets crude oil and natural gas",182.69,0.1,1.06,15.5,MEDIUM,1000000
+397,UHOO,Peak Corp Inc.,Energy,Renewable Energy,Peak Corp develops and operates utility-scale solar and wind farms,103.29,0.1,1.16,12.0,MEDIUM,1000000
+398,TGJO,Macro IQ Inc.,Energy,Energy Equipment & Services,Macro IQ provides oilfield drilling and completion services,257.29,0.1,1.35,14.4,HIGH,1000000
+399,ZHI,Safe Optima Inc.,Energy,Oil Refining & Marketing,Safe Optima refines crude oil into petroleum products and chemicals,195.82,82.18,1.25,7.5,MEDIUM,1000000
+400,WQY,Pivot Secure Inc.,Energy,Oil & Gas Exploration,Pivot Secure builds and operates LNG export terminals and pipelines,90.65,12.1,0.97,10.0,MEDIUM,1000000
+401,IHGQ,Metro Trust Inc.,Energy,Renewable Energy,Metro Trust manufactures wind turbines and renewable energy components,0.5,110.6,0.64,18.1,LOW,1000000
+402,EWDG,Macro Works Inc.,Energy,Energy Equipment & Services,"Macro Works explores, produces, and markets crude oil and natural gas",79.6,108.01,1.18,5.0,HIGH,1000000
+403,OAKT,Edge Corp Inc.,Energy,Oil Refining & Marketing,Edge Corp develops and operates utility-scale solar and wind farms,0.5,0.1,1.19,17.5,MEDIUM,1000000
+404,TLD,Silver Therapeutics Inc.,Energy,Oil & Gas Exploration,Silver Therapeutics provides oilfield drilling and completion services,0.5,169.18,1.24,15.4,LOW,1000000
+405,ZOHL,White Point Inc.,Energy,Renewable Energy,White Point refines crude oil into petroleum products and chemicals,0.5,0.1,1.38,21.3,MEDIUM,1000000
+406,XMFC,Mono Labs Inc.,Energy,Energy Equipment & Services,Mono Labs builds and operates LNG export terminals and pipelines,195.75,36.45,1.05,15.8,LOW,1000000
+407,IMA,Rise Works Inc.,Energy,Oil Refining & Marketing,Rise Works manufactures wind turbines and renewable energy components,71.36,0.1,1.21,8.9,MEDIUM,1000000
+408,OEW,Pro Logic Inc.,Energy,Oil & Gas Exploration,"Pro Logic explores, produces, and markets crude oil and natural gas",0.5,0.1,1.2,23.5,HIGH,1000000
+409,KGT,True Tech Inc.,Energy,Renewable Energy,True Tech develops and operates utility-scale solar and wind farms,0.5,0.1,1.12,9.5,HIGH,1000000
+410,WEH,Union Networks Inc.,Energy,Energy Equipment & Services,Union Networks provides oilfield drilling and completion services,0.5,0.1,1.02,10.8,HIGH,1000000
+411,ZAZ,Mid Global Inc.,Energy,Oil Refining & Marketing,Mid Global refines crude oil into petroleum products and chemicals,102.11,31.79,1.43,18.6,HIGH,1000000
+412,IIU,Optimal Networks Inc.,Energy,Oil & Gas Exploration,Optimal Networks builds and operates LNG export terminals and pipelines,225.11,94.39,1.18,12.6,HIGH,1000000
+413,UBME,Macro Technologies Inc.,Energy,Renewable Energy,Macro Technologies manufactures wind turbines and renewable energy components,237.64,9.86,1.16,14.6,MEDIUM,1000000
+414,GZFT,Evolve Path Inc.,Energy,Energy Equipment & Services,"Evolve Path explores, produces, and markets crude oil and natural gas",0.5,160.87,1.1,10.5,LOW,1000000
+415,QBY,Scale Crest Inc.,Energy,Oil Refining & Marketing,Scale Crest develops and operates utility-scale solar and wind farms,129.43,188.63,1.19,22.6,LOW,1000000
+416,ZGL,Atlas Edge Inc.,Energy,Oil & Gas Exploration,Atlas Edge provides oilfield drilling and completion services,0.5,66.35,1.31,6.4,LOW,1000000
+417,REUG,Rock Cloud Inc.,Energy,Renewable Energy,Rock Cloud refines crude oil into petroleum products and chemicals,248.93,4.4,1.09,9.0,HIGH,1000000
+418,QSUD,Liberty Holdings Inc.,Energy,Energy Equipment & Services,Liberty Holdings builds and operates LNG export terminals and pipelines,59.14,0.1,1.73,12.8,MEDIUM,1000000
+419,AJS,Macro Ventures Inc.,Energy,Oil Refining & Marketing,Macro Ventures manufactures wind turbines and renewable energy components,0.5,0.1,1.66,16.3,MEDIUM,1000000
+420,OIM,Swift Vision Inc.,Energy,Oil & Gas Exploration,"Swift Vision explores, produces, and markets crude oil and natural gas",0.5,13.01,1.31,11.3,LOW,1000000
+421,LUNT,Beacon Sciences Inc.,Utilities,Electric Utilities,Beacon Sciences operates regulated electric transmission and distribution,24.5,27.13,0.61,11.6,LOW,1000000
+422,ERTE,Mid Holdings Inc.,Utilities,Gas Utilities,Mid Holdings distributes natural gas to residential and commercial customers,68.26,18.01,0.34,18.9,HIGH,1000000
+423,EAC,Ion Corp Inc.,Utilities,Water Utilities,Ion Corp operates water treatment and municipal water supply infrastructure,0.5,16.97,0.66,18.1,LOW,1000000
+424,BFSA,Jade Select Inc.,Utilities,Renewable Power Generation,"Jade Select generates electricity from solar, wind, and hydro sources",83.0,18.38,0.14,17.5,MEDIUM,1000000
+425,VUBQ,Silver Capital Inc.,Utilities,Electric Utilities,Silver Capital operates a nuclear power generation fleet,44.62,11.94,0.42,9.5,LOW,1000000
+426,SNE,Silver Services Inc.,Utilities,Gas Utilities,Silver Services operates regulated electric transmission and distribution,48.74,26.0,0.45,22.6,LOW,1000000
+427,TOR,White Services Inc.,Utilities,Water Utilities,White Services distributes natural gas to residential and commercial customers,33.33,0.1,0.39,17.8,LOW,1000000
+428,NPY,New Power Inc.,Utilities,Renewable Power Generation,New Power operates water treatment and municipal water supply infrastructure,0.5,22.72,0.58,16.8,LOW,1000000
+429,POFT,Zero Force Inc.,Utilities,Electric Utilities,"Zero Force generates electricity from solar, wind, and hydro sources",20.77,7.94,0.35,20.4,HIGH,1000000
+430,PNZH,Modern Finance Inc.,Utilities,Gas Utilities,Modern Finance operates a nuclear power generation fleet,32.92,0.1,0.48,20.4,LOW,1000000
+431,CLE,Main Labs Inc.,Utilities,Water Utilities,Main Labs operates regulated electric transmission and distribution,18.67,18.13,0.54,15.1,LOW,1000000
+432,TSU,Ideal Optima Inc.,Utilities,Renewable Power Generation,Ideal Optima distributes natural gas to residential and commercial customers,0.5,0.1,0.56,11.6,LOW,1000000
+433,AVJU,Nord IQ Inc.,Utilities,Electric Utilities,Nord IQ operates water treatment and municipal water supply infrastructure,38.36,5.42,0.57,14.1,LOW,1000000
+434,QQB,Silver Capital Inc.,Utilities,Gas Utilities,"Silver Capital generates electricity from solar, wind, and hydro sources",0.5,24.44,0.37,21.7,MEDIUM,1000000
+435,ZTOC,Pro Group Inc.,Utilities,Water Utilities,Pro Group operates a nuclear power generation fleet,0.5,19.69,0.47,14.8,LOW,1000000
+436,GKLS,Green One Inc.,Utilities,Renewable Power Generation,Green One operates regulated electric transmission and distribution,4.77,1.52,0.29,15.3,LOW,1000000
+437,GGL,Vital Wave Inc.,Utilities,Electric Utilities,Vital Wave distributes natural gas to residential and commercial customers,0.5,13.91,0.38,16.1,MEDIUM,1000000
+438,PAHZ,True Technologies Inc.,Utilities,Gas Utilities,True Technologies operates water treatment and municipal water supply infrastructure,27.38,10.88,0.61,16.7,LOW,1000000
+439,RES,Edge Crest Inc.,Utilities,Water Utilities,"Edge Crest generates electricity from solar, wind, and hydro sources",3.61,3.33,0.44,14.0,LOW,1000000
+440,ASCL,Beacon Hub Inc.,Utilities,Renewable Power Generation,Beacon Hub operates a nuclear power generation fleet,33.94,22.0,0.5,21.8,MEDIUM,1000000
+441,QZSR,Orbit Reach Inc.,Utilities,Electric Utilities,Orbit Reach operates regulated electric transmission and distribution,19.52,12.22,0.6,14.3,MEDIUM,1000000
+442,BRAK,Metro Services Inc.,Utilities,Gas Utilities,Metro Services distributes natural gas to residential and commercial customers,25.17,6.23,0.58,12.3,LOW,1000000
+443,GJZC,New Optima Inc.,Utilities,Water Utilities,New Optima operates water treatment and municipal water supply infrastructure,38.34,21.03,0.57,13.3,LOW,1000000
+444,BXH,Rise Logic Inc.,Utilities,Renewable Power Generation,"Rise Logic generates electricity from solar, wind, and hydro sources",4.96,0.1,0.45,16.2,LOW,1000000
+445,VQWX,Blue Works Inc.,Utilities,Electric Utilities,Blue Works operates a nuclear power generation fleet,69.4,28.87,0.34,15.9,LOW,1000000
+446,SNR,Ultra Shield Inc.,Utilities,Gas Utilities,Ultra Shield operates regulated electric transmission and distribution,80.93,34.1,0.47,19.9,LOW,1000000
+447,LDQP,Vital Tech Inc.,Utilities,Water Utilities,Vital Tech distributes natural gas to residential and commercial customers,0.5,0.1,0.47,19.1,LOW,1000000
+448,ZZDY,Horizon Holdings Inc.,Utilities,Renewable Power Generation,Horizon Holdings operates water treatment and municipal water supply infrastructure,15.13,0.48,0.62,19.0,LOW,1000000
+449,STW,Pioneer World Inc.,Utilities,Electric Utilities,"Pioneer World generates electricity from solar, wind, and hydro sources",97.53,0.1,0.31,19.3,LOW,1000000
+450,DEDA,True Sciences Inc.,Utilities,Gas Utilities,True Sciences operates a nuclear power generation fleet,23.48,16.66,0.43,22.1,LOW,1000000
+451,CUDV,Red Smart Inc.,Real Estate,Commercial REITs,Red Smart owns and manages Class A commercial office properties,0.5,9.89,0.77,22.9,MEDIUM,1000000
+452,ATA,Metro Works Inc.,Real Estate,Residential REITs,Metro Works owns and operates apartment communities in major metros,65.38,3.01,0.57,36.6,MEDIUM,1000000
+453,WMIL,Lumen Media Inc.,Real Estate,Industrial & Logistics REITs,Lumen Media owns a portfolio of industrial and logistics warehouses,12.3,0.1,0.8,29.6,LOW,1000000
+454,NLV,Crest Trust Inc.,Real Estate,Diversified Real Estate,Crest Trust develops and leases retail shopping centre properties,0.5,11.95,1.09,27.7,LOW,1000000
+455,ELW,Mid Networks Inc.,Real Estate,Commercial REITs,Mid Networks operates data centre facilities and co-location services,55.1,0.1,0.93,35.2,LOW,1000000
+456,VLSC,Sterling Works Inc.,Real Estate,Residential REITs,Sterling Works manages senior housing and healthcare facility properties,0.5,8.4,1.05,20.3,HIGH,1000000
+457,PSFL,Macro Holdings Inc.,Real Estate,Industrial & Logistics REITs,Macro Holdings owns and manages Class A commercial office properties,28.75,0.1,0.69,7.6,MEDIUM,1000000
+458,SQC,Wide Link Inc.,Real Estate,Diversified Real Estate,Wide Link owns and operates apartment communities in major metros,1.5,0.94,0.77,5.0,LOW,1000000
+459,TXO,Vertex Track Inc.,Real Estate,Commercial REITs,Vertex Track owns a portfolio of industrial and logistics warehouses,35.46,15.38,1.09,44.3,LOW,1000000
+460,SYHE,Golden World Inc.,Real Estate,Residential REITs,Golden World develops and leases retail shopping centre properties,14.35,12.86,0.93,41.4,LOW,1000000
+461,PMF,Vertex One Inc.,Real Estate,Industrial & Logistics REITs,Vertex One operates data centre facilities and co-location services,12.23,3.45,0.64,31.1,LOW,1000000
+462,QOVB,Hawk Care Inc.,Real Estate,Diversified Real Estate,Hawk Care manages senior housing and healthcare facility properties,42.01,0.1,0.82,25.8,LOW,1000000
+463,ICCZ,Horizon Shield Inc.,Real Estate,Commercial REITs,Horizon Shield owns and manages Class A commercial office properties,2.88,0.1,0.79,42.4,LOW,1000000
+464,TJAT,Next Labs Inc.,Real Estate,Residential REITs,Next Labs owns and operates apartment communities in major metros,18.06,0.1,1.15,16.9,MEDIUM,1000000
+465,DSHN,Silver Equities Inc.,Real Estate,Industrial & Logistics REITs,Silver Equities owns a portfolio of industrial and logistics warehouses,52.53,12.21,0.76,15.0,LOW,1000000
+466,MRY,Wide Group Inc.,Real Estate,Diversified Real Estate,Wide Group develops and leases retail shopping centre properties,12.62,14.45,0.5,36.6,LOW,1000000
+467,PMS,Rock Optima Inc.,Real Estate,Commercial REITs,Rock Optima operates data centre facilities and co-location services,17.69,10.59,1.0,8.6,MEDIUM,1000000
+468,AQD,Jade Tech Inc.,Real Estate,Residential REITs,Jade Tech manages senior housing and healthcare facility properties,41.7,6.09,0.7,21.1,LOW,1000000
+469,AFH,Eagle Health Inc.,Real Estate,Industrial & Logistics REITs,Eagle Health owns and manages Class A commercial office properties,16.58,0.1,0.77,40.0,LOW,1000000
+470,SQAE,Nord Therapeutics Inc.,Real Estate,Diversified Real Estate,Nord Therapeutics owns and operates apartment communities in major metros,61.33,0.1,0.69,40.7,LOW,1000000
+471,ELWX,Rapid Systems Inc.,Real Estate,Commercial REITs,Rapid Systems owns a portfolio of industrial and logistics warehouses,49.17,7.35,1.03,6.9,LOW,1000000
+472,OAPI,Omni Cast Inc.,Real Estate,Residential REITs,Omni Cast develops and leases retail shopping centre properties,99.38,8.46,1.01,26.5,LOW,1000000
+473,OKP,Mono Smart Inc.,Real Estate,Industrial & Logistics REITs,Mono Smart operates data centre facilities and co-location services,13.28,7.38,1.05,15.7,LOW,1000000
+474,LYFH,Forge Labs Inc.,Real Estate,Diversified Real Estate,Forge Labs manages senior housing and healthcare facility properties,42.8,0.1,0.93,11.1,HIGH,1000000
+475,XEIM,Silver Health Inc.,Real Estate,Commercial REITs,Silver Health owns and manages Class A commercial office properties,53.62,0.1,0.87,22.5,LOW,1000000
+476,FAK,Scale Crest Inc.,Real Estate,Residential REITs,Scale Crest owns and operates apartment communities in major metros,0.5,0.1,1.31,28.6,MEDIUM,1000000
+477,XCTT,Beacon Pro Inc.,Real Estate,Industrial & Logistics REITs,Beacon Pro owns a portfolio of industrial and logistics warehouses,20.01,9.18,0.87,13.7,LOW,1000000
+478,URHE,Forge Analytics Inc.,Real Estate,Diversified Real Estate,Forge Analytics develops and leases retail shopping centre properties,45.02,10.0,1.1,24.7,LOW,1000000
+479,DSHG,Echo Health Inc.,Real Estate,Commercial REITs,Echo Health operates data centre facilities and co-location services,0.5,5.46,0.71,22.1,LOW,1000000
+480,CBL,Ideal Smart Inc.,Real Estate,Residential REITs,Ideal Smart manages senior housing and healthcare facility properties,38.97,0.1,0.63,20.4,LOW,1000000
+481,IFTV,Edge Wave Inc.,Materials,Specialty Chemicals,Edge Wave produces specialty chemicals for industrial and agricultural use,81.91,36.97,1.11,9.3,LOW,1000000
+482,CIQT,Red Finance Inc.,Materials,Mining & Metals,"Red Finance mines and refines copper, lithium, and rare earth metals",50.63,0.58,1.23,14.9,HIGH,1000000
+483,SRU,Next Networks Inc.,Materials,Steel & Aluminium,Next Networks manufactures flat-rolled steel products for automotive use,63.3,24.87,1.01,16.2,LOW,1000000
+484,TPDC,Wind Systems Inc.,Materials,Paper & Packaging,Wind Systems produces aluminium sheet and extrusions for aerospace,58.27,17.31,1.35,20.8,MEDIUM,1000000
+485,GGEM,Eagle Hub Inc.,Materials,Specialty Chemicals,Eagle Hub manufactures sustainable paper-based packaging solutions,0.5,33.48,1.2,24.9,MEDIUM,1000000
+486,OGRC,Wind Pro Inc.,Materials,Mining & Metals,Wind Pro produces specialty chemicals for industrial and agricultural use,0.5,0.1,1.16,13.5,HIGH,1000000
+487,EYBC,Swift Stream Inc.,Materials,Steel & Aluminium,"Swift Stream mines and refines copper, lithium, and rare earth metals",9.08,4.37,1.19,11.2,HIGH,1000000
+488,XXQ,Apex Sphere Inc.,Materials,Paper & Packaging,Apex Sphere manufactures flat-rolled steel products for automotive use,0.5,6.12,1.19,18.7,MEDIUM,1000000
+489,FWH,Vision Health Inc.,Materials,Specialty Chemicals,Vision Health produces aluminium sheet and extrusions for aerospace,0.5,0.1,1.61,9.1,LOW,1000000
+490,PNW,Milestone Care Inc.,Materials,Mining & Metals,Milestone Care manufactures sustainable paper-based packaging solutions,93.65,20.22,0.89,21.5,LOW,1000000
+491,CHAL,Summit Logic Inc.,Materials,Steel & Aluminium,Summit Logic produces specialty chemicals for industrial and agricultural use,0.5,21.9,0.82,9.3,HIGH,1000000
+492,MEJ,Open Therapeutics Inc.,Materials,Paper & Packaging,"Open Therapeutics mines and refines copper, lithium, and rare earth metals",38.05,2.57,0.92,18.5,HIGH,1000000
+493,DXR,Green Cloud Inc.,Materials,Specialty Chemicals,Green Cloud manufactures flat-rolled steel products for automotive use,87.54,0.1,1.39,24.2,MEDIUM,1000000
+494,QLLV,Pacific IQ Inc.,Materials,Mining & Metals,Pacific IQ produces aluminium sheet and extrusions for aerospace,78.65,11.1,1.14,22.2,MEDIUM,1000000
+495,KOJZ,Star One Inc.,Materials,Steel & Aluminium,Star One manufactures sustainable paper-based packaging solutions,0.5,13.55,1.07,13.2,HIGH,1000000
+496,MCXC,Red Secure Inc.,Materials,Paper & Packaging,Red Secure produces specialty chemicals for industrial and agricultural use,82.5,23.35,1.07,5.0,MEDIUM,1000000
+497,PXNA,Quest Partners Inc.,Materials,Specialty Chemicals,"Quest Partners mines and refines copper, lithium, and rare earth metals",0.5,26.27,1.37,11.6,LOW,1000000
+498,HAXT,World Systems Inc.,Materials,Mining & Metals,World Systems manufactures flat-rolled steel products for automotive use,0.5,12.04,1.02,15.2,HIGH,1000000
+499,VQHC,Royal Cast Inc.,Materials,Steel & Aluminium,Royal Cast produces aluminium sheet and extrusions for aerospace,47.32,22.02,1.22,12.1,LOW,1000000
+500,TPX,Zenith Dynamics Inc.,Materials,Paper & Packaging,Zenith Dynamics manufactures sustainable paper-based packaging solutions,59.46,41.17,0.97,11.1,HIGH,1000000

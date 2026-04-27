@@ -1,3 +1,228 @@
+# Microsoft Agent Framework — Sequential Agent Workflows
+
+> **A reusable multi-agent workflow framework** built with Microsoft Foundry Agent Service that demonstrates how to orchestrate specialized agents with different tools to solve complex business problems. This repo contains **two sequential agent workflows** sharing the same architecture pattern.
+
+---
+
+## Workflows in This Repository
+
+| Workflow | Script | Use Case | Agents | Output |
+|---|---|---|---|---|
+| **S&P 500 Quantitative Research** | `portfolio_risk_workflow.py` | Natural language research questions answered with real S&P 500 price/return data (505 companies, Jan 2017–Dec 2021) | 5 agents | PowerPoint presentation (PPTX) + JSON checkpoint |
+| **Budget Variance Analysis** | `budget_variance_workflow.py` | Quarterly budget variance reporting for a government authority | 6 agents | Word document (.docx) + email |
+
+---
+
+# S&P 500 Quantitative Research Workflow
+
+Answers natural language investment research questions using **real S&P 500 price and return data** — computing exact metrics from CSV files and sourcing qualitative context from the web, then assembling everything into a PowerPoint deck.
+
+## Dataset
+
+| File | Contents |
+|---|---|
+| `sp500_sample_data/tickerlist.csv` | 505 S&P 500 constituents — name, ticker, 11 GICS sectors |
+| `sp500_sample_data/returns.csv` | 60 monthly decimal returns, January 2017 – December 2021, one column per ticker |
+| `sp500_sample_data/prices.csv` | ~62 monthly price snapshots, one column per ticker |
+
+**All data is real S&P 500 constituent data — no synthetic values.**
+
+## Example Queries
+
+```bash
+python portfolio_risk_workflow.py --query "Compare NVIDIA, AMD, and Intel from 2017 to 2021 — total return, Sharpe ratio, and max drawdown."
+
+python portfolio_risk_workflow.py --query "Rank all 11 S&P 500 sectors by Sharpe ratio from 2017 to 2021."
+
+python portfolio_risk_workflow.py --query "How badly were airlines hit in the 2020 COVID crash? Compute max drawdown and 2020 annual return."
+```
+
+See [`example_queries.md`](example_queries.md) for 40+ ready-to-run queries across every sector.
+
+## Architecture Diagram
+
+Open [`workflow_architecture_sp500.html`](workflow_architecture_sp500.html) in a browser for a full interactive architecture diagram.
+
+## Agent Pipeline
+
+```
+User Query
+    │
+    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│         S&P 500 RESEARCH WORKFLOW  (5 Sequential Agents)            │
+└─────────────────────────────────────────────────────────────────────┘
+
+Agent 1: Query Planner  (FoundryChatClient — no portal agent needed)
+  ├─ Input:  natural language research question
+  ├─ Task:   classify intent, resolve tickers/sectors in scope,
+  │          generate 3–5 analytical questions (answerable from CSVs)
+  │          and 2–3 qualitative questions (for web research)
+  └─ Output: structured research plan JSON
+
+Agent 2: Quantitative Analyst  (FoundryAgent + Code Interpreter)
+  ├─ Tool:   Code Interpreter — Python sandbox (pandas / numpy)
+  ├─ Files:  tickerlist.csv, prices.csv, returns.csv (attached in Foundry portal)
+  ├─ Task:   execute every analytical question with real computed values —
+  │          cumulative return, year-by-year annual returns, max drawdown,
+  │          Sharpe ratio, annualised volatility, correlations, rankings
+  ├─ Guard:  output validated on return — rejects hallucinated templates
+  └─ Output: findings JSON with real computed numbers
+
+Agent 3: Search Query Expander  (FoundryChatClient — no portal agent needed)
+  ├─ Input:  research plan (Agent 1) + findings summary (Agent 2)
+  ├─ Task:   generate 5–8 precise web search query strings grounded in
+  │          the quantitative findings — business drivers and events,
+  │          not raw percentages
+  └─ Output: query list JSON
+
+Agent 4: Web Researcher  (FoundryChatClient + Tavily, one call per query)
+  ├─ Tool:   Tavily Search API  (requires TAVILY_API_KEY in .env)
+  ├─ Task:   loop through every query from Agent 3;
+  │          call Tavily, then extract 2–4 factual claims per result;
+  │          record coverage_gap: true when no relevant sources found
+  └─ Output: evidence pack JSON with sourced claims and URLs
+
+Agent 5: Synthesizer  (FoundryChatClient — no portal agent needed)
+  ├─ Input:  research plan + findings (Agent 2) + evidence pack (Agent 4)
+  ├─ Task:   design 5–8 slides — every claim cites a number from Agent 2
+  │          or a URL from Agent 4; year-by-year returns always get a
+  │          dedicated comparison_table slide
+  └─ Output: slide_deck_spec JSON
+
+generate_pptx()  [deterministic Python function — not an LLM]
+  ├─ Input:  slide_deck_spec from Agent 5
+  └─ Output: dark-navy PowerPoint presentation saved to ./output/
+```
+
+## Key Files
+
+| File | Purpose |
+|---|---|
+| `portfolio_risk_workflow.py` | Main workflow — run this |
+| `sp500_sample_data/` | Folder with `tickerlist.csv`, `returns.csv`, `prices.csv` |
+| `prompts/query_planner_agent.txt` | Agent 1 system prompt |
+| `prompts/quantitative_analyst_agent.txt` | Agent 2 system prompt (set in Foundry portal) |
+| `prompts/search_query_expander_agent.txt` | Agent 3 system prompt |
+| `prompts/web_researcher_agent.txt` | Agent 4 system prompt |
+| `prompts/synthesizer_agent.txt` | Agent 5 system prompt |
+| `example_queries.md` | 40+ ready-to-run example queries |
+| `workflow_architecture_sp500.html` | Interactive architecture diagram |
+| `output/` | JSON checkpoints and PPTX files saved here |
+
+## Setup: S&P 500 Research Workflow
+
+### 1. Install dependencies
+
+```bash
+pip install -r requirements.txt
+pip install python-pptx        # required for PPTX generation
+pip install httpx              # required for Tavily API calls
+```
+
+### 2. Create the Quantitative Analyst agent in the Azure AI Foundry portal
+
+This is the **only** agent that needs to be created in the portal. Agents 1, 3, 4, and 5 run as `FoundryChatClient` — no portal setup required.
+
+```
+Name:    SP500QuantAgent            (must match QUANT_AGENT_NAME in .env)
+Version: 1                          (must match QUANT_AGENT_VERSION in .env)
+Model:   gpt-4o (or your deployment)
+Tools:   ✅ Code Interpreter
+
+File Attachments (upload all three from sp500_sample_data/):
+  ✅ tickerlist.csv
+  ✅ returns.csv
+  ✅ prices.csv
+
+System Prompt:
+  Copy the full content of: prompts/quantitative_analyst_agent.txt
+```
+
+**Important:** The three CSV files must be attached directly to the agent in the Foundry portal. The Code Interpreter loads them at runtime — they are not sent through the API message.
+
+### 3. Get a Tavily API key
+
+Agent 4 calls the [Tavily Search API](https://tavily.com) (free tier available). If `TAVILY_API_KEY` is blank, Agent 4 skips web searches and the deck will contain only quantitative findings with no web citations.
+
+### 4. Configure environment variables
+
+Copy `.envsample` to `.env` and fill in:
+
+```bash
+AZURE_AI_PROJECT_ENDPOINT=https://<your-project>.services.ai.azure.com/api/projects/<project>
+AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o
+AZURE_OPENAI_API_VERSION=2025-03-01-preview
+
+SP500_DATA_DIR=./sp500_sample_data
+
+QUANT_AGENT_NAME=SP500QuantAgent
+QUANT_AGENT_VERSION=1
+
+TAVILY_API_KEY=tvly-your-key-here
+
+OUTPUT_DIR=./output
+```
+
+### 5. Run the workflow
+
+```bash
+# Default query
+python portfolio_risk_workflow.py
+
+# Custom query
+python portfolio_risk_workflow.py --query "Compare Apple and Microsoft from 2017 to 2021."
+
+# Resume an interrupted run automatically (same query finds the latest checkpoint)
+python portfolio_risk_workflow.py --query "Compare Apple and Microsoft from 2017 to 2021."
+
+# Resume a specific run by ID
+python portfolio_risk_workflow.py --run-id 20260427_143022
+
+# Delete checkpoint and start fresh
+python portfolio_risk_workflow.py --query "Compare Apple and Microsoft from 2017 to 2021." --reset
+```
+
+## Output
+
+Every run saves two files to `./output/`:
+
+| File | Contents |
+|---|---|
+| `sp500_analysis_<id>.json` | Full checkpoint — all five agent outputs. Re-running the same query resumes from the last completed step. |
+| `sp500_analysis_<id>.pptx` | PowerPoint deck with real computed metrics from Agent 2 and web-sourced narrative from Agent 4 |
+
+### Presentation Slides
+
+1. **Title** — deck title, user query, analysis period
+2. **Executive Summary** — 3–5 bullets with real computed numbers
+3. **Comparison Table** — metrics table (total return, max drawdown, Sharpe, annualised volatility)
+4. **Annual Returns Table** — year-by-year breakdown per ticker/sector (2017–2021)
+5. **Narrative** — qualitative context with URLs from Agent 4
+6. **Sources** — all web sources used
+
+## Intent Types Agent 1 Recognises
+
+| Intent | Example phrasing |
+|---|---|
+| `single_stock_deep_dive` | "Analyze Apple from 2017 to 2021" |
+| `sector_comparison` | "Compare IT versus Energy" |
+| `ranking` | "Rank all sectors by Sharpe ratio" |
+| `risk_analysis` | "Which stocks had the worst drawdown in 2020?" |
+| `correlation_study` | "How correlated were the 11 sectors?" |
+| `general` | Broad exploratory questions |
+
+## How the Numbers Flow into the Deck
+
+Agent 2 runs Python code against the CSV files inside the Code Interpreter sandbox. The agent reads its own code outputs and writes a final JSON response containing the real computed values. That JSON (`findings`) is:
+
+1. Validated on return — any hallucinated template or placeholder text raises an error immediately
+2. Passed verbatim to Agent 5 (Synthesizer) as `=== QUANTITATIVE FINDINGS (Agent 2) ===`
+3. Written into `slide_deck_spec` by Agent 5 with exact numbers in bullets and table rows
+4. Rendered into the PPTX by `generate_pptx()` — a deterministic Python function that makes no LLM calls
+
+---
+
 # Microsoft Agent Framework Budget Variance Analysis Sequential Agent Workflow
 
 > **A reusable multi-agent workflow framework** built with Microsoft Foundry Agent Service that demonstrates how to orchestrate specialized agents with different tools to solve complex business problems. This prototype showcases budget variance analysis for government agencies, but the **sequential agent pattern is designed to be adapted for any domain or use case**.
